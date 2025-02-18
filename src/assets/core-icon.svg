@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" width="256" height="48">
+  <style>
+    .st0 { fill: #bcbbbb; }
+    .st1 { fill: rgb(100, 149, 237); }
+    .text-style { font-family: Arial, sans-serif; font-size:25px; }
+    .text-bold { font-weight: bold; }
+  </style>
+  <path class="st0" d="M22.4 25.8V19.6h1.9v7.7H5.6V19.6h1.9v6.2z"/>
+  <path class="st1" d="M9.7 17.1l9.4 2 0.4-1.9-9.4-2-0.4 1.9zm1.3-4.5l8.8 4.1 0.8-1.7-8.8-4.1-0.8 1.7zm2.4-4.3l7.4 6.2 1.2-1.5-7.4-6.2-1.2 1.5zm4.8-4.5l-1.6 1.2 5.8 7.8 1.6-1.2-5.8-7.8zM9.5 21.5h9.7v-1.9H9.5v1.9z"/>
+  <text x="28" y="28" class="text-style">heap
+    <tspan class="text-bold">overflow</tspan>
+  </text>
+</svg>
