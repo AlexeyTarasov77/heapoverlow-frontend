@@ -1,31 +1,19 @@
-import { ReactNode } from "react";
+import { useState } from "react";
 import { Button } from "../../../shared/ui";
-import { IQuestion } from "../../../shared/api/questions";
 import { QuestionPreview } from "./QuestionPreview";
 import { TagInput } from "./TagInput";
-import { useQuestions } from "./use-questions";
+import { IQueryParams, useQuestions } from "../api/use-questions";
+import { FilterButton } from "./FilterButton";
 
 export function QuestionsListPage() {
-  const { questions, setQueryParams, error, isLoading } = useQuestions();
-
-  function FilterButton({
-    children,
-    params
-  }: {
-    children: ReactNode;
-    params: { [key: string]: string };
-  }) {
-    const handleOnClick = () => {
-      setQueryParams(params);
-    };
-    return (
-      <button
-        onClick={handleOnClick}
-        className="text-sm text-slate-500 transition-colors p-1 hover:bg-slate-100"
-      >
-        {children}
-      </button>
-    );
+  const [queryParams, setQueryParams] = useState<IQueryParams>({})
+  const { data: questions, error, isLoading } = useQuestions(queryParams);
+  const [selectedFilter, setSelectedFilter] = useState<number>(-1)
+  const filters: Record<string, IQueryParams> = {
+    "Newest": { sort: "newest" },
+    "Most answers": { sort: "mostAnswers" },
+    "All": {},
+    "Unanswered": { filter: "unanswered" }
   }
 
   return (
@@ -42,11 +30,12 @@ export function QuestionsListPage() {
           </div>
           <div className="flex gap-3 items-center justify-end">
             <div className="border border-slate-300 rounded-sm flex gap-3 p-1">
-              <FilterButton params={{ sort: "newest" }}>Newest</FilterButton>
-              <FilterButton params={{ sort: "mostAnswers" }}>
-                Most answers
-              </FilterButton>
-              <FilterButton params={{}}>Unanswered</FilterButton>
+              {Object.entries(filters).map(([key, value], index) => (
+                <FilterButton clicked={index == selectedFilter} key={index} onClick={() => {
+                  setSelectedFilter(index)
+                  setQueryParams(value)
+                }}>{key}</FilterButton>
+              ))}
             </div>
             <div>
               <TagInput onSubmit={tags => setQueryParams({ tags })} />
@@ -54,7 +43,7 @@ export function QuestionsListPage() {
           </div>
           <div className="border"></div>
           <div className="flex flex-col">
-            {questions.map((question: IQuestion) => {
+            {questions.map((question) => {
               return (
                 <>
                   <QuestionPreview

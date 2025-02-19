@@ -1,17 +1,15 @@
 import { Link } from "react-router-dom";
-import { humanizeDate } from "../utils";
-import { IQuestion } from "../shared/api/questions";
+import { IQuestion } from "../shared/api/questions/types";
 import { useContext } from "react";
 import { LikeQuestionsCtx } from "../context/like-questions";
 import { Badge } from "../shared/ui";
+import { humanizeDate } from "../shared/ui/utils";
 
 export function Question({ questionData }: { questionData: IQuestion }) {
   const ctx = useContext(LikeQuestionsCtx)
   if (!ctx)
     throw Error("Question: no LikeQuestionCtx provided")
   const { toggleLike, checkIsLiked } = ctx
-  console.log('rerender');
-
   return (
     <div className="flex gap-3 p-5">
       <div className="flex flex-col gap-3">

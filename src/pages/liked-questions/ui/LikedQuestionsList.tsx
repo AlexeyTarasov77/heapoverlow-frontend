@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { LikeQuestionsCtx } from "../../context/like-questions";
-import { Question } from "../../widgets";
+import { LikeQuestionsCtx } from "../../../context/like-questions";
+import { Question } from "../../../widgets/question";
 
-export function LikedQuestionsList() {
+export function LikedQuestionsListPage() {
   const ctx = useContext(LikeQuestionsCtx);
   if (!ctx) {
     throw Error("Context not provided")

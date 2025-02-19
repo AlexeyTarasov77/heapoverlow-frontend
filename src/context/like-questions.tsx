@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { LIKED_QUESTIONS_KEY, SERVER_URL } from "../app/constants";
-import { IQuestion } from "../api/questions/interfaces";
-import { parseQuestions } from "../api/questions/utils";
+import { IQuestion } from "../shared/api/questions/types";
 
 interface LikeQuestionCtxI {
   useLikedQuestions: () => IQuestion[];
@@ -27,7 +26,7 @@ function useLikedQuestions(): IQuestion[] {
     console.log("URL", url.toString())
     fetch(url)
       .then(resp => resp.json())
-      .then((questions: IQuestion[]) => setQuestions(parseQuestions(questions)))
+      .then((questions: IQuestion[]) => setQuestions(questions))
   }, [])
   return questions
 }

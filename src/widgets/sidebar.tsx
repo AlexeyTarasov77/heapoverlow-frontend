@@ -7,7 +7,7 @@ export function Sidebar({
   links: { name: string; href: string; iconURL: string }[];
 }) {
   return (
-    <aside className="w-1/5 flex-none bg-blue-200 p-4">
+    <aside className="h-screen w-1/5 flex-none bg-blue-200 p-4">
       <div><img src={coreIcon} alt="" /></div>
       {links.map((link, i) => (
         <Link key={i} to={link.href} className="flex items-center gap-2 py-2">

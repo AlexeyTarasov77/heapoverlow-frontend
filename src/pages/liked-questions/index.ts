@@ -1,2 +1,2 @@
-export { LikedQuestionsList } from "./liked-questions-list.ui";
+export { LikedQuestionsListPage } from "./ui/LikedQuestionsList";
 

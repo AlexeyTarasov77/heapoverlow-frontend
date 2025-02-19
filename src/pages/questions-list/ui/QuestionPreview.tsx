@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
-import { Badge } from "../../../shared/ui";
-import { IQuestion } from "../../../shared/api/questions";
+import { Badge, humanizeDate } from "../../../shared/ui";
 import { LikeButton } from "../../../widgets/like-button";
-import { humanizeDate } from "../../../utils";
+import { IQuestion } from "../../../shared/api/questions/types";
 
-export function QuestionPreview({ question, tagOnClick }: { question: IQuestion, tagOnClick?: React.MouseEventHandler<HTMLSpanElement> }) {
+interface IProps {
+  question: IQuestion;
+  tagOnClick?: React.MouseEventHandler<HTMLSpanElement>
+}
+
+export function QuestionPreview({ question, tagOnClick }: IProps) {
   const likesStoringKey = "likedQuestionsIds";
   return (
     <div className="flex gap-3 p-5">

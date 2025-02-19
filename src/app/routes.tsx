@@ -1,29 +1,26 @@
+import { Route, Routes } from "react-router-dom";
 import { LayoutPage } from "../pages/layout";
-import { LikedQuestionsList } from "../pages/liked-questions/liked-questions-list.ui";
 import { MainPage } from "../pages/main";
+import { NotFoundPage } from "../pages/not-found";
 import { QuestionPage } from "../pages/question-detail";
 import { QuestionsListPage } from "../pages/questions-list";
+import { LikedQuestionsListPage } from "../pages/liked-questions";
+import { BrowserRouter } from 'react-router-dom';
 
-export const routes = [
-  {
-    element: <LayoutPage />,
-    children: [
-      {
-        path: "/",
-        element: <MainPage />
-      },
-      {
-        path: "/questions",
-        element: <QuestionsListPage />
-      },
-      {
-        path: "/questions/:id",
-        element: <QuestionPage />
-      },
-      {
-        path: "/questions/liked",
-        element: <LikedQuestionsList />
-      }
-    ],
-  },
-];
+
+export function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<LayoutPage />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/questions" element={<QuestionsListPage />} />
+          <Route path="/questions/:id" element={<QuestionPage />} />
+          <Route path="/questions/liked" element={<LikedQuestionsListPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
