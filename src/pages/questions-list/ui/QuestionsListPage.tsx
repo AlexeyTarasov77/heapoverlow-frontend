@@ -8,13 +8,13 @@ import { FilterButton } from "./FilterButton";
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({})
   const { data: questions, error, isLoading } = useQuestions(queryParams);
-  const [selectedFilter, setSelectedFilter] = useState<number>(-1)
-  const filters: Record<string, IQueryParams> = {
+  const filters: Record<string, IQueryParams | null> = {
     "Newest": { sort: "newest" },
     "Most answers": { sort: "mostAnswers" },
-    "All": {},
+    "All": null,
     "Unanswered": { filter: "unanswered" }
   }
+  const [selectedFilter, setSelectedFilter] = useState<number>(Object.keys(filters).indexOf("All"))
 
   return (
     <>
@@ -30,15 +30,17 @@ export function QuestionsListPage() {
           </div>
           <div className="flex gap-3 items-center justify-end">
             <div className="border border-slate-300 rounded-sm flex gap-3 p-1">
-              {Object.entries(filters).map(([key, value], index) => (
+              {Object.entries(filters).map(([key, params], index) => (
                 <FilterButton clicked={index == selectedFilter} key={index} onClick={() => {
-                  setSelectedFilter(index)
-                  setQueryParams(value)
+                  if (index != selectedFilter) {
+                    setSelectedFilter(index)
+                    setQueryParams((prev) => (params ? { ...prev, ...params } : {}))
+                  }
                 }}>{key}</FilterButton>
               ))}
             </div>
             <div>
-              <TagInput onSubmit={tags => setQueryParams({ tags })} />
+              <TagInput onSubmit={tags => setQueryParams((prev) => ({ ...prev, tags }))} />
             </div>
           </div>
           <div className="border"></div>

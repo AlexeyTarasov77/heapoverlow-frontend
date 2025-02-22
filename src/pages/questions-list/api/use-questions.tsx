@@ -13,6 +13,9 @@ export function useQuestions(queryParams: IQueryParams): IReqState<IQuestion[]> 
     if (queryParams.sort) {
         params.append("sort", queryParams.sort);
     }
+    if (queryParams.filter) {
+        params.append("filter", queryParams.filter);
+    }
     if (queryParams.tags) {
         queryParams.tags.forEach(tag => params.append("tags", String(tag)));
     }
