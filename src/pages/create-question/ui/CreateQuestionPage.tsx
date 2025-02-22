@@ -2,7 +2,7 @@ import { Button, Box, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { createQuestion } from "../api/create-question";
 import { TagInput } from "../../../shared/ui";
-import { FormTextInput } from "../../../shared/ui/FormTextInput";
+import { FormTextInput, validationRules } from "../../../shared/ui/forms";
 
 export interface ICreateQuestionForm {
   title: string;
@@ -31,16 +31,16 @@ export function CreateQuestionPage() {
         <FormTextInput
           name="title"
           control={control}
-          rules={{ required: { value: true, message: "This field is required" }, minLength: 10 }}
+          rules={{ ...validationRules.required(), ...validationRules.minLength(10) }}
           label="Title"
         />
         <FormTextInput
           name="body"
           control={control}
-          rules={{ required: true, minLength: 10 }}
+          rules={{ ...validationRules.required(), ...validationRules.minLength(10) }}
           label="Body"
         />
-        <input type="hidden" {...register("tags", { required: true })} />
+        <input type="hidden" {...register("tags", validationRules.required())} />
         <TagInput
           onChange={(tags) => setValue("tags", tags)} errorMsg={errors.tags ? errors.tags.message || "Enter a valid value" : undefined}
         />
