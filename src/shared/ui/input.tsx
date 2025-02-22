@@ -10,7 +10,7 @@ export function Input({
   errMsg?: string;
   required?: boolean;
   className?: string;
-  labelText: string
+  labelText: string;
 }) {
   return (
     <div className={clsx("mx-auto max-w-xs", className)}>
@@ -18,7 +18,7 @@ export function Input({
         <label
           className={clsx(
             "mb-1 block text-sm font-medium text-gray-700",
-            required && "after:ml-0.5 after:text-red-500 after:content-['*']"
+            required && "after:ml-0.5 after:text-red-500 after:content-['*']",
           )}
         >
           {labelText}
@@ -33,8 +33,8 @@ export function Input({
               : [
                   "border-gray-300",
                   "focus:border-primary-400",
-                  "focus:ring-primary-200"
-                ]
+                  "focus:ring-primary-200",
+                ],
           )}
           {...inputProps}
         />

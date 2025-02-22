@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export function LikeButton({
   objID,
-  storingKey
+  storingKey,
 }: {
   objID: number;
   storingKey: string;
@@ -18,7 +18,7 @@ export function LikeButton({
   const unlikeQuestion = (): void => {
     localStorage.setItem(
       storingKey,
-      JSON.stringify(getLikedQuestions().filter(value => value !== objID))
+      JSON.stringify(getLikedQuestions().filter((value) => value !== objID)),
     );
     setIsLiked(false);
   };

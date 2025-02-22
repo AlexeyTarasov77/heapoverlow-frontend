@@ -6,10 +6,9 @@ import { Badge } from "../shared/ui";
 import { humanizeDate } from "../shared/ui/utils";
 
 export function Question({ questionData }: { questionData: IQuestion }) {
-  const ctx = useContext(LikeQuestionsCtx)
-  if (!ctx)
-    throw Error("Question: no LikeQuestionCtx provided")
-  const { toggleLike, checkIsLiked } = ctx
+  const ctx = useContext(LikeQuestionsCtx);
+  if (!ctx) throw Error("Question: no LikeQuestionCtx provided");
+  const { toggleLike, checkIsLiked } = ctx;
   return (
     <div className="flex gap-3 p-5">
       <div className="flex flex-col gap-3">

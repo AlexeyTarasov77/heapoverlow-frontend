@@ -5,7 +5,7 @@ import { IQuestion } from "../../../shared/api/questions/types";
 
 interface IProps {
   question: IQuestion;
-  tagOnClick?: React.MouseEventHandler<HTMLSpanElement>
+  tagOnClick?: React.MouseEventHandler<HTMLSpanElement>;
 }
 
 export function QuestionPreview({ question, tagOnClick }: IProps) {
@@ -28,7 +28,9 @@ export function QuestionPreview({ question, tagOnClick }: IProps) {
         <div className="flex justify-between mt-3 items-center">
           <div className="flex gap-2">
             {question.tags.map((tag, index) => (
-              <Badge key={index} onClick={tagOnClick}>{tag}</Badge>
+              <Badge key={index} onClick={tagOnClick}>
+                {tag}
+              </Badge>
             ))}
           </div>
           <div className="flex gap-2 items-center">

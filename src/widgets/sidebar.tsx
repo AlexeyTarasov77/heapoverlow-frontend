@@ -8,7 +8,9 @@ export function Sidebar({
 }) {
   return (
     <aside className="h-screen w-1/5 flex-none bg-blue-200 p-4">
-      <div><img src={coreIcon} alt="" /></div>
+      <div>
+        <img src={coreIcon} alt="" />
+      </div>
       {links.map((link, i) => (
         <Link key={i} to={link.href} className="flex items-center gap-2 py-2">
           <img src={link.iconURL} className="w-6 h-6" alt={link.name} />

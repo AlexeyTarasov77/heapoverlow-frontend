@@ -5,8 +5,8 @@ import { NotFoundPage } from "../pages/not-found";
 import { QuestionPage } from "../pages/question-detail";
 import { QuestionsListPage } from "../pages/questions-list";
 import { LikedQuestionsListPage } from "../pages/liked-questions";
-import { BrowserRouter } from 'react-router-dom';
-
+import { BrowserRouter } from "react-router-dom";
+import { CreateQuestionPage } from "../pages/create-question/ui/CreateQuestionPage";
 
 export function AppRouter() {
   return (
@@ -17,10 +17,13 @@ export function AppRouter() {
           <Route path="/questions" element={<QuestionsListPage />} />
           <Route path="/questions/:id" element={<QuestionPage />} />
           <Route path="/questions/liked" element={<LikedQuestionsListPage />} />
+          <Route
+            path="/questions/create"
+            element={<CreateQuestionPage />}
+          ></Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
-
