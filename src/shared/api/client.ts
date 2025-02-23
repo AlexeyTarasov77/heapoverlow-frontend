@@ -23,6 +23,20 @@ export async function sendReq(
   if (path instanceof URL) {
     url = path.toString();
   }
+  const authToken = localStorage.getItem(authTokenKey)
+  console.log("authToken", authToken)
+  if (authToken) {
+    const headers = new Headers(options?.headers)
+    console.log('headers', headers)
+    headers.append("Authorization", `Bearer ${authToken}`)
+    console.log('headers', headers)
+    if (options) {
+      options.headers = headers
+    } else {
+      options = { headers }
+    }
+  }
+  console.log('options', options)
   return fetch(url, options).then((resp) => resp.json());
 }
 

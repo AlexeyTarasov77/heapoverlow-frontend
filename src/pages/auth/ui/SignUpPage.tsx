@@ -15,7 +15,6 @@ export function SignUpPage() {
     formState: { errors },
     setError,
   } = useForm<ISignUpForm>();
-  console.log("errors", errors);
   const onSubmit: SubmitHandler<ISignUpForm> = async (data: ISignUpForm) => {
     const resp = await signup(data);
     if (!resp.success) {
@@ -46,6 +45,7 @@ export function SignUpPage() {
         <BaseInput
           Component={FormTextInput}
           name="email"
+          type="email"
           control={control}
           rules={{
             ...validationRules.required(),
@@ -73,7 +73,7 @@ export function SignUpPage() {
           </p>
         ) : null}
         <Button type="submit" variant="contained">
-          Sign In
+          Sign Up
         </Button>
       </Box>
     </Box>

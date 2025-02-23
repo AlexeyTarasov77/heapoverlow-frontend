@@ -1,20 +1,29 @@
 import { Link } from "react-router-dom";
-import coreIcon from "../assets/core-icon.svg";
+import { CoreIcon } from "../assets/CoreIcon";
+import { ReactElement } from "react";
+
+interface ISidebarLink {
+  name: string;
+  href: string;
+  icon: ReactElement
+}
 
 export function Sidebar({
   links,
 }: {
-  links: { name: string; href: string; iconURL: string }[];
+  links: ISidebarLink[];
 }) {
   return (
     <aside className="h-screen w-1/5 flex-none bg-blue-200 p-4">
       <div>
-        <img src={coreIcon} alt="" />
+        <CoreIcon />
       </div>
       {links.map((link, i) => (
         <Link key={i} to={link.href} className="flex items-center gap-2 py-2">
-          <img src={link.iconURL} className="w-6 h-6" alt={link.name} />
-          {link.name}
+          <div className="flex gap-3">
+            <div className="w-6 h-6">{link.icon}</div>
+            <div>{link.name}</div>
+          </div>
         </Link>
       ))}
     </aside>

@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Alert, Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   BaseInput,
@@ -8,6 +8,9 @@ import {
 } from "../../../shared/ui/forms";
 import { ISignInForm, signin } from "../api/signin";
 import { authTokenKey } from "../../../shared/api/client";
+import { ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 export function SignInPage() {
   const {
@@ -16,15 +19,27 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
+  const [success, setSuccess] = useState<boolean | null>(null)
   console.log("errors", errors);
   const onSubmit: SubmitHandler<ISignInForm> = async (data: ISignInForm) => {
     const resp = await signin(data);
     if (!resp.success) {
+      setSuccess(false)
       return setError("root", { type: "custom", message: resp.message });
     }
     localStorage.setItem(authTokenKey, resp.data);
-    alert("Succesfully signed in!");
+    setSuccess(true)
   };
+  const displayAlert = () => {
+    const show = (node: ReactNode) => createPortal(<div className="absolute bottom-4 right-4">{node}</div>, document.body)
+    if (success === true) {
+      return show(<Alert action={
+        <Button color="inherit" size="small"><Link to={"/"}>Go Home</Link></Button>
+      }>Successfully signed in!</Alert>)
+    } else if (success === false) {
+      return show(<Alert onClose={() => { }} severity="error">Ooops! Failed to sign in</Alert>)
+    }
+  }
   return (
     <Box className="flex items-center justify-center min-h-screen">
       <Box
@@ -38,6 +53,7 @@ export function SignInPage() {
         <BaseInput
           Component={FormTextInput}
           name="email"
+          type="email"
           control={control}
           rules={{
             ...validationRules.required(),
@@ -62,6 +78,7 @@ export function SignInPage() {
           Sign In
         </Button>
       </Box>
+      {displayAlert()}
     </Box>
   );
 }

@@ -6,9 +6,11 @@ export function FormTextInput({
   label,
   value,
   errorMsg,
+  type
 }: IComponentProps) {
   return (
     <TextField
+      type={type}
       onChange={onChange}
       value={value}
       label={label}

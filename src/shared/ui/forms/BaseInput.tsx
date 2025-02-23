@@ -11,6 +11,7 @@ export interface IFormInputProps {
   name: string;
   className?: string;
   label?: string;
+  type?: string;
   control: Control<any>;
   rules?: Omit<
     RegisterOptions,
@@ -23,6 +24,7 @@ export function BaseInput({
   name,
   className,
   label,
+  type,
   control,
   rules,
   Component,
@@ -34,6 +36,7 @@ export function BaseInput({
       control={control}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <Component
+          type={type}
           className={className}
           onChange={onChange}
           value={value ?? ""}
