@@ -1,5 +1,5 @@
 import { SERVER_URL } from "../../../app/constants";
-import { IReqState, useReq } from "../../../shared/api/helpers";
+import { IReqState, useReq } from "../../../shared/api/client";
 import { IQuestion } from "../../../shared/api/questions/types";
 
 export interface IQueryParams {

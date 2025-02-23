@@ -1,4 +1,4 @@
-import { sendReq } from "../../../shared/api/helpers";
+import { sendReq } from "../../../shared/api/client";
 import { ICreateQuestionForm } from "../ui/CreateQuestionPage";
 
 export async function createQuestion(data: ICreateQuestionForm) {

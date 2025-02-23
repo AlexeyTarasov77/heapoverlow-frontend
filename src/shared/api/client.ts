@@ -1,16 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { SERVER_URL } from "../../app/constants";
 
+interface IResponseSuccess {
+  success: true;
+  data?: any;
+}
+
+interface IResponseFailure {
+  success: false;
+  message: string;
+}
+
+type ResponseData = Promise<IResponseFailure | IResponseSuccess>;
+
+export const authTokenKey = "authToken";
+
 export async function sendReq(
   path: string | URL,
   options?: RequestInit,
-): Promise<Record<string, any>> {
+): ResponseData {
   let url: string = `${SERVER_URL}${path}`;
   if (path instanceof URL) {
     url = path.toString();
   }
   return fetch(url, options).then((resp) => resp.json());
 }
+
+export async function GET(path: string | URL): ResponseData {
+  return await sendReq(path);
+}
+
+export async function POST(path: string | URL, data: object): ResponseData {
+  return await sendReq(path, {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 export interface IReqState<T> {
   data?: T;
   error?: string;
