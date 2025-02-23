@@ -5,6 +5,6 @@ export interface ISignInForm {
   password: string;
 }
 
-export function signin(data: ISignInForm) {
-  return POST("/users/signin", data);
+export async function signin(data: ISignInForm) {
+  return await POST("/users/signin", data);
 }
