@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { SERVER_URL } from "../../app/constants";
 
-interface IResponseSuccess {
+interface IResponseSuccess<T> {
   success: true;
-  data?: any;
+  data?: T;
 }
 
 interface IResponseFailure {
@@ -11,40 +11,43 @@ interface IResponseFailure {
   message: string;
 }
 
-type ResponseData = Promise<IResponseFailure | IResponseSuccess>;
+export type APIResponse<T> = Promise<IResponseFailure | IResponseSuccess<T>>;
 
 export const authTokenKey = "authToken";
 
-export async function sendReq(
+export async function sendReq<T>(
   path: string | URL,
   options?: RequestInit,
-): ResponseData {
+): APIResponse<T> {
   let url: string = `${SERVER_URL}${path}`;
   if (path instanceof URL) {
     url = path.toString();
   }
-  const authToken = localStorage.getItem(authTokenKey)
-  console.log("authToken", authToken)
+  const authToken = localStorage.getItem(authTokenKey);
+  console.log("authToken", authToken);
   if (authToken) {
-    const headers = new Headers(options?.headers)
-    console.log('headers', headers)
-    headers.append("Authorization", `Bearer ${authToken}`)
-    console.log('headers', headers)
+    const headers = new Headers(options?.headers);
+    console.log("headers", headers);
+    headers.append("Authorization", `Bearer ${authToken}`);
+    console.log("headers", headers);
     if (options) {
-      options.headers = headers
+      options.headers = headers;
     } else {
-      options = { headers }
+      options = { headers };
     }
   }
-  console.log('options', options)
+  console.log("options", options);
   return fetch(url, options).then((resp) => resp.json());
 }
 
-export async function GET(path: string | URL): ResponseData {
+export async function GET<T>(path: string | URL): APIResponse<T> {
   return await sendReq(path);
 }
 
-export async function POST(path: string | URL, data: object): ResponseData {
+export async function POST<T>(
+  path: string | URL,
+  data: object,
+): APIResponse<T> {
   return await sendReq(path, {
     method: "POST",
     body: JSON.stringify(data),
@@ -56,7 +59,7 @@ export type IReqState<T> = {
   data?: T;
   error?: string;
   isLoading: boolean;
-}
+};
 
 export function useReq<T>(
   path: string | URL,

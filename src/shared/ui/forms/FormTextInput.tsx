@@ -6,7 +6,7 @@ export function FormTextInput({
   label,
   value,
   errorMsg,
-  type
+  type,
 }: IComponentProps) {
   return (
     <TextField

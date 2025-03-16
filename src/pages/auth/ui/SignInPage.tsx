@@ -19,27 +19,43 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
-  const [success, setSuccess] = useState<boolean | null>(null)
+  const [success, setSuccess] = useState<boolean | null>(null);
   console.log("errors", errors);
   const onSubmit: SubmitHandler<ISignInForm> = async (data: ISignInForm) => {
     const resp = await signin(data);
     if (!resp.success) {
-      setSuccess(false)
+      setSuccess(false);
       return setError("root", { type: "custom", message: resp.message });
     }
     localStorage.setItem(authTokenKey, resp.data);
-    setSuccess(true)
+    setSuccess(true);
   };
   const displayAlert = () => {
-    const show = (node: ReactNode) => createPortal(<div className="absolute bottom-4 right-4">{node}</div>, document.body)
+    const show = (node: ReactNode) =>
+      createPortal(
+        <div className="absolute bottom-4 right-4">{node}</div>,
+        document.body,
+      );
     if (success === true) {
-      return show(<Alert action={
-        <Button color="inherit" size="small"><Link to={"/"}>Go Home</Link></Button>
-      }>Successfully signed in!</Alert>)
+      return show(
+        <Alert
+          action={
+            <Button color="inherit" size="small">
+              <Link to={"/"}>Go Home</Link>
+            </Button>
+          }
+        >
+          Successfully signed in!
+        </Alert>,
+      );
     } else if (success === false) {
-      return show(<Alert onClose={() => { }} severity="error">Ooops! Failed to sign in</Alert>)
+      return show(
+        <Alert onClose={() => {}} severity="error">
+          Ooops! Failed to sign in
+        </Alert>,
+      );
     }
-  }
+  };
   return (
     <Box className="flex items-center justify-center min-h-screen">
       <Box

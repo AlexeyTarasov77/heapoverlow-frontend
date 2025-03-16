@@ -7,5 +7,5 @@ export interface ISignUpForm extends ISignInForm {
 }
 
 export async function signup(data: ISignUpForm) {
-  return await POST("/users/signup", data)
+  return await POST("/users/signup", data);
 }

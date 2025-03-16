@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "../types/users";
+import { User } from "../api/entities";
 
 export type UsersState = {
   isAuthenticated: boolean;
   token?: string;
-  user?: User
-}
+  user?: User;
+};
 
 const initialState: UsersState = {
-  isAuthenticated: false
-}
+  isAuthenticated: false,
+};
 
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {}
-})
+  reducers: {},
+});

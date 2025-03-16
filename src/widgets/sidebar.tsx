@@ -5,14 +5,10 @@ import { ReactElement } from "react";
 interface ISidebarLink {
   name: string;
   href: string;
-  icon: ReactElement
+  icon: ReactElement;
 }
 
-export function Sidebar({
-  links,
-}: {
-  links: ISidebarLink[];
-}) {
+export function Sidebar({ links }: { links: ISidebarLink[] }) {
   return (
     <aside className="h-screen w-1/5 flex-none bg-blue-200 p-4">
       <div>
