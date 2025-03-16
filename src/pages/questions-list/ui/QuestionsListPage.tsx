@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionPreview } from "./QuestionPreview";
 import Button from "@mui/material/Button";
 
-import { IQueryParams, useQuestions } from "../api/use-questions";
+import { IQueryParams } from "../api/use-questions";
 import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
 import { TagInput } from "../../../shared/ui";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { fetchQuestions } from "../../../shared/store/QuestionsSlice";
 
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
-  const { data: questions, error, isLoading } = useQuestions(queryParams);
-  const filters: Record<string, IQueryParams | null> = {
+  const dispatch = useAppDispatch()
+  const { data: questions, error, isLoading } = useAppSelector(state => state.questions)
+  useEffect(() => {
+    dispatch(fetchQuestions(queryParams))
+  }, [dispatch, queryParams])
+  const filters: Record<string, IQueryParams | undefined> = {
     Newest: { sort: "newest" },
     "Most answers": { sort: "mostAnswers" },
-    All: null,
+    All: {},
     Unanswered: { filter: "unanswered" },
   };
   const [selectedFilter, setSelectedFilter] = useState<number>(

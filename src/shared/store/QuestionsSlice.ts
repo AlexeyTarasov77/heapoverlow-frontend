@@ -33,6 +33,7 @@ export const fetchQuestions = createAsyncThunk<Question[], IQueryParams>(
     if (!resp.success) {
       throw new Error(resp.message);
     }
+    console.log("questions fetched in thunk", resp.data)
     return resp.data;
   },
 );
@@ -50,9 +51,11 @@ export const questionsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchQuestions.pending, (state, action) => {
+        console.log("fetch pending", state, action)
         state.isLoading = true;
       })
       .addCase(fetchQuestions.fulfilled, (state, action) => {
+        console.log("fetched questions", state, action);
         state.data = action.payload;
         state.isLoading = false;
       })

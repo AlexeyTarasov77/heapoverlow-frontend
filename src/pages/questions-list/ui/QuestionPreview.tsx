@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Badge, humanizeDate } from "../../../shared/ui";
 import { LikeButton } from "../../../widgets/like-button";
-import { IQuestion } from "../../../shared/api/questions/types";
+import { Question } from "../../../shared/api/entities";
 
 interface IProps {
-  question: IQuestion;
+  question: Question;
   tagOnClick?: React.MouseEventHandler<HTMLSpanElement>;
 }
 

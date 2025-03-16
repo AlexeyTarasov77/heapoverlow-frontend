@@ -4,8 +4,11 @@ import { Question, QuestionSchema } from "./entities";
 export const questionsApi = {
   getQuestions: async (): APIResponse<Question[]> => {
     const resp = await GET("/questions");
+    console.log("response", resp)
     if (resp.success) {
-      return { ...resp, data: QuestionSchema.array().parse(resp.data) };
+      const validated = { ...resp, data: QuestionSchema.array().parse(resp.data) };
+      console.log("response validated", validated)
+      return validated
     }
     return resp;
   },
