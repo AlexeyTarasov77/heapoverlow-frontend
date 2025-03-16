@@ -1,5 +1,5 @@
 import { SERVER_URL } from "../../../app/constants";
-import { IReqState, useReq } from "../../../shared/api/client";
+import { ReqState, useReq } from "../../../shared/api/client";
 import { IQuestion } from "../../../shared/api/questions/types";
 
 export interface IQueryParams {
@@ -10,7 +10,7 @@ export interface IQueryParams {
 
 export function useQuestions(
   queryParams: IQueryParams,
-): IReqState<IQuestion[]> {
+): ReqState<IQuestion[]> {
   const params = new URLSearchParams();
   if (queryParams.sort) {
     params.append("sort", queryParams.sort);

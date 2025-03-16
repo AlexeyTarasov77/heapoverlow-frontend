@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IReqState } from "../api/client";
+import { ReqState } from "../api/client";
 import { SERVER_URL } from "../../app/constants";
 import { questionsApi } from "../api/questionsApi";
 import { Question } from "../api/entities";
 
-export type QuestionsState = { likedQuestionsIds: number[] } & IReqState<
-  Question[]
->;
+export type QuestionsState = {
+  likedQuestionsIds: number[],
+  questions: Question[]
+} & ReqState;
 
 export interface IQueryParams {
   sort?: string;
@@ -16,7 +17,7 @@ export interface IQueryParams {
 
 export const fetchQuestions = createAsyncThunk<Question[], IQueryParams>(
   "questions/fetchAll",
-  async (queryParams, thunkAPI) => {
+  async (queryParams, _) => {
     const params = new URLSearchParams();
     if (queryParams.sort) {
       params.append("sort", queryParams.sort);
@@ -33,7 +34,6 @@ export const fetchQuestions = createAsyncThunk<Question[], IQueryParams>(
     if (!resp.success) {
       throw new Error(resp.message);
     }
-    console.log("questions fetched in thunk", resp.data)
     return resp.data;
   },
 );
@@ -42,6 +42,7 @@ const initialState: QuestionsState = {
   likedQuestionsIds: [],
   isLoading: false,
   error: undefined,
+  questions: []
 };
 
 export const questionsSlice = createSlice({
@@ -50,13 +51,11 @@ export const questionsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchQuestions.pending, (state, action) => {
-        console.log("fetch pending", state, action)
+      .addCase(fetchQuestions.pending, (state, _) => {
         state.isLoading = true;
       })
       .addCase(fetchQuestions.fulfilled, (state, action) => {
-        console.log("fetched questions", state, action);
-        state.data = action.payload;
+        state.questions = action.payload;
         state.isLoading = false;
       })
       .addCase(fetchQuestions.rejected, (state, action) => {

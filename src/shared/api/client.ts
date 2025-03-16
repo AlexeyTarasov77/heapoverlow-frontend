@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
 import { SERVER_URL } from "../../app/constants";
 
 interface IResponseSuccess<T> {
   success: true;
-  data?: T;
+  data: T;
 }
 
 interface IResponseFailure {
@@ -55,30 +54,30 @@ export async function POST<T>(
   });
 }
 
-export type IReqState<T> = {
-  data?: T;
+export type ReqState = {
   error?: string;
   isLoading: boolean;
-};
-
-export function useReq<T>(
-  path: string | URL,
-  reqCallback?: (data: Record<string, any>) => Promise<T>,
-  deps?: React.DependencyList,
-): IReqState<T> {
-  const [error, setError] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<T | undefined>(undefined);
-  useEffect(() => {
-    sendReq(path)
-      .then(async (data) => {
-        setIsLoading(false);
-        const processedData = reqCallback
-          ? await reqCallback(data)
-          : (data as T);
-        setData(processedData);
-      })
-      .catch((err) => setError(String(err)));
-  }, deps);
-  return { data, isLoading, error };
 }
+
+
+// export function useReq<T>(
+//   path: string | URL,
+//   reqCallback?: (data: Record<string, any>) => Promise<T>,
+//   deps?: React.DependencyList,
+// ): ReqState<T> {
+//   const [error, setError] = useState<string | undefined>(undefined);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+//   const [data, setData] = useState<T | undefined>(undefined);
+//   useEffect(() => {
+//     sendReq(path)
+//       .then(async (data) => {
+//         setIsLoading(false);
+//         const processedData = reqCallback
+//           ? await reqCallback(data)
+//           : (data as T);
+//         setData(processedData);
+//       })
+//       .catch((err) => setError(String(err)));
+//   }, deps);
+//   return { data, isLoading, error };
+// }
