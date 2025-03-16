@@ -52,7 +52,7 @@ export async function POST(path: string | URL, data: object): ResponseData {
   });
 }
 
-export interface IReqState<T> {
+export type IReqState<T> = {
   data?: T;
   error?: string;
   isLoading: boolean;
