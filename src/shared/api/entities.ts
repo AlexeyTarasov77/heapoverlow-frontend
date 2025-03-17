@@ -3,11 +3,17 @@ import { z } from "zod";
 export const QuestionAuthorSchema = z.object({
   id: z.number(),
   username: z.string(),
-  imageUrl: z.nullable(z.string())
+  imageUrl: z.string().nullable()
 })
 
 
-export const UserSchema = QuestionAuthorSchema.extend({})
+export const UserSchema = QuestionAuthorSchema.extend({
+  location: z.string().nullable(),
+  reputation: z.number(),
+  email: z.string(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime()
+})
 
 export const QuestionSchema = z.object({
   id: z.number(),
@@ -16,8 +22,8 @@ export const QuestionSchema = z.object({
   tags: z.array(z.string()),
   author: QuestionAuthorSchema,
   answersCount: z.number({ coerce: true }),
-  createdAt: z.date({ coerce: true }),
-  updatedAt: z.date({ coerce: true }),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime()
 });
 
 export type Question = z.infer<typeof QuestionSchema>;

@@ -6,13 +6,10 @@ import { createAppAsyncThunk } from "../../app/hooks";
 import { showAlert } from "./CommonSlice";
 
 export type UsersState = {
-  isAuthenticated: boolean;
-  token?: string;
   user?: User;
 } & ReqState;
 
 const initialState: UsersState = {
-  isAuthenticated: false,
   isLoading: false
 };
 
@@ -20,26 +17,54 @@ const initialState: UsersState = {
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-    setToken: (state, action: PayloadAction<string>) => {
-      const token = action.payload
-      localStorage.setItem(authTokenKey, token)
-      state.token = token
-    },
-    setUser: (state, action: PayloadAction<User>) => {
-      state.user = action.payload
-      state.isAuthenticated = true;
-    }
-  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(loadUserByToken.pending, (state, _) => {
+      state.isLoading = true
+    })
+      .addCase(loadUserByToken.fulfilled, (state, action: PayloadAction<User>) => {
+        state.isLoading = false;
+        state.user = action.payload
+      })
+      .addCase(loadUserByToken.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+      })
+      .addCase(userSignIn.pending, (state, _) => {
+        state.isLoading = true
+      })
+      .addCase(userSignIn.fulfilled, (state) => {
+        state.isLoading = false
+      })
+      .addCase(userSignIn.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+      })
+      .addCase(userSignUp.pending, (state, _) => {
+        state.isLoading = true
+      })
+      .addCase(userSignUp.fulfilled, (state, _) => {
+        state.isLoading = false
+      })
+      .addCase(userSignUp.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message
+      })
+  }
 });
 
 export const loadUserByToken = createAppAsyncThunk("users/loadUserByToken",
-  async (_, { dispatch }) => {
+  async (_, thunkAPI) => {
+    console.log("loading user by token")
     const resp = await usersApi.getMe()
+    console.log("user resp", resp)
     if (!resp.success) {
+      if (resp.status == 401)
+        localStorage.removeItem(authTokenKey)
+
       throw new Error(resp.message)
     }
-    dispatch(usersSlice.actions.setUser(resp.data))
+    return resp.data
   }
 )
 
@@ -49,19 +74,18 @@ export const userSignIn = createAppAsyncThunk<void, ISignInForm>("users/signin",
     if (!resp.success) {
       throw new Error(resp.message)
     }
-    dispatch(usersSlice.actions.setToken(resp.data))
+    localStorage.setItem(authTokenKey, resp.data)
     dispatch(loadUserByToken())
     dispatch(showAlert({ severity: "success", message: "You've succefully signed in" }))
   }
 )
 
 export const userSignUp = createAppAsyncThunk<User, ISignUpForm>("users/signup",
-  async (data, { dispatch }) => {
+  async (data, _) => {
     const resp = await usersApi.signUp(data)
     if (!resp.success) {
       throw new Error(resp.message)
     }
-    dispatch(usersSlice.actions.setUser(resp.data))
     return resp.data
   }
 )

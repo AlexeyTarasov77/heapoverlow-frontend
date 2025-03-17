@@ -1,14 +1,9 @@
-import { useEffect, useState, ComponentType } from "react";
-import { checkAuthenticated } from "../api/checkAuthenticated";
+import { ComponentType } from "react";
 import { Navigate } from "react-router-dom";
+import { useAppSelector } from "../../../app/hooks";
 
 export function PrivateRoute({ Component }: { Component: ComponentType }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  useEffect(() => {
-    checkAuthenticated().then((value) => setIsAuthenticated(value));
-  }, []);
-  if (isAuthenticated === null) {
-    return <div>Loading...</div>;
-  }
-  return isAuthenticated ? <Component /> : <Navigate to="/users/signin" />;
+  const user = useAppSelector(state => state.users.user)
+  console.log("user is authenticated", user)
+  return user ? <Component /> : <Navigate to="/users/signin" />;
 }

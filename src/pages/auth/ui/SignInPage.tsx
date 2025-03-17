@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { userSignIn } from "../../../shared/store/UsersSlice";
 import { ISignInForm } from "../../../shared/api/usersApi";
 import { ShowNotification } from "../../../widgets/notifications";
+import { useEffect } from "react";
 
 export function SignInPage() {
   const {
@@ -21,12 +22,22 @@ export function SignInPage() {
   } = useForm<ISignInForm>();
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const alert = useAppSelector((state) => state.common.alert)
+  const alert = useAppSelector(state => state.common.alert)
+  const { isLoading, error, user } = useAppSelector(state => state.users)
   const onSubmit: SubmitHandler<ISignInForm> = async (data: ISignInForm) => {
-    dispatch(userSignIn(data)).unwrap()
-      .then(() => setTimeout(() => navigate("/"), 3000))
-      .catch(err => setError("root", { message: err.message }))
+    dispatch(userSignIn(data))
   };
+  useEffect(() => {
+    error && setError("root", { message: error })
+  }, [error, setError])
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+  const onSuccess = () => {
+    setTimeout(() => navigate("/"), 3000)
+    return <ShowNotification>{alert}</ShowNotification>
+
+  }
   return (
     <Box className="flex items-center justify-center min-h-screen">
       <Box
@@ -56,16 +67,16 @@ export function SignInPage() {
             ...validationRules.minLength(8),
           }}
         />
-        {errors?.root ? (
+        {errors?.root && (
           <p className="text-red-500 text-sm">
             {errors.root.message || "Failed to sign in"}
           </p>
-        ) : null}
+        )}
         <Button type="submit" variant="contained">
           Sign In
         </Button>
       </Box>
-      <ShowNotification>{alert}</ShowNotification>
+      {alert && user && onSuccess()}
     </Box>
   );
 }

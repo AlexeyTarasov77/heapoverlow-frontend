@@ -3,11 +3,13 @@ import { SERVER_URL } from "../../app/constants";
 interface IResponseSuccess<T> {
   success: true;
   data: T;
+  status: number
 }
 
 interface IResponseFailure {
   success: false;
   message: string;
+  status: number
 }
 
 export type APIResponse<T> = Promise<IResponseFailure | IResponseSuccess<T>>;
@@ -32,7 +34,9 @@ export async function sendReq<T>(
       options = { headers };
     }
   }
-  return fetch(url, options).then((resp) => resp.json());
+  const resp = await fetch(url, options)
+  const data = await resp.json()
+  return { ...data, status: resp.status }
 }
 
 export async function GET<T>(path: string | URL): APIResponse<T> {
