@@ -7,9 +7,9 @@ import { createAppAsyncThunk } from "../../app/hooks";
 import { showAlert } from "./CommonSlice";
 
 export type QuestionsState = {
-  likedQuestionsIds: number[],
+  likedQuestionsIds: number[];
   questionDetail?: Question;
-  questions: Question[]
+  questions: Question[];
 } & ReqState;
 
 export interface IQueryParams {
@@ -35,7 +35,7 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
     url.search = params.toString();
     const resp = await questionsApi.getQuestions();
     if (!resp.success) {
-      dispatch(showAlert({ severity: "error", message: resp.message }))
+      dispatch(showAlert({ severity: "error", message: resp.message }));
       throw new Error(resp.message);
     }
     return resp.data;
@@ -45,14 +45,14 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
 export const fetchQuestionByID = createAppAsyncThunk<Question, number>(
   "questions/fetchByID",
   async (questionID, { dispatch }) => {
-    const resp = await questionsApi.getQuestionByID(questionID)
+    const resp = await questionsApi.getQuestionByID(questionID);
     if (!resp.success) {
-      dispatch(showAlert({ severity: "error", message: resp.message }))
-      throw new Error(resp.message)
+      dispatch(showAlert({ severity: "error", message: resp.message }));
+      throw new Error(resp.message);
     }
-    return resp.data
-  }
-)
+    return resp.data;
+  },
+);
 
 const initialState: QuestionsState = {
   likedQuestionsIds: [],

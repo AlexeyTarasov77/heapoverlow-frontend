@@ -6,12 +6,19 @@ import { QuestionPage } from "../pages/question-detail";
 import { QuestionsListPage } from "../pages/questions-list";
 import { LikedQuestionsListPage } from "../pages/liked-questions";
 import { BrowserRouter } from "react-router-dom";
-import { CreateQuestionPage } from "../pages/create-question/ui/CreateQuestionPage";
+import { CreateQuestionPage } from "../pages/create-question";
 import { SignInPage, SignUpPage } from "../pages/auth";
-import { PrivateRoute } from "../widgets/PrivateRoute/ui/PrivateRoute";
-import { ProfilePage } from "../pages/auth/ui/ProfilePage";
+import { PrivateRoute } from "../widgets";
+import { ProfilePage } from "../pages/profile-page";
+import { useEffect } from "react";
+import { loadUserByToken } from "../shared/store/UsersSlice";
+import { useAppDispatch } from "./hooks";
 
 export function AppRouter() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(loadUserByToken());
+  });
   return (
     <BrowserRouter>
       <Routes>

@@ -7,9 +7,11 @@ export function ShowNotification({ children }: { children?: AlertT }) {
     children &&
     createPortal(
       <div className="absolute bottom-4 right-4">
-        <MUIAlert onClose={() => { }} severity={children.severity}>{children.message}</MUIAlert>
+        <MUIAlert onClose={() => {}} severity={children.severity}>
+          {children.message}
+        </MUIAlert>
       </div>,
       document.body,
     )
-  )
+  );
 }

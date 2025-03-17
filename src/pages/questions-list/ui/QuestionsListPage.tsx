@@ -11,11 +11,13 @@ import { fetchQuestions } from "../../../shared/store/QuestionsSlice";
 
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
-  const dispatch = useAppDispatch()
-  const { questions, error, isLoading } = useAppSelector(state => state.questions)
+  const dispatch = useAppDispatch();
+  const { questions, error, isLoading } = useAppSelector(
+    (state) => state.questions,
+  );
   useEffect(() => {
-    dispatch(fetchQuestions(queryParams))
-  }, [dispatch, queryParams])
+    dispatch(fetchQuestions(queryParams));
+  }, [dispatch, queryParams]);
   const filters: Record<string, IQueryParams | undefined> = {
     Newest: { sort: "newest" },
     "Most answers": { sort: "mostAnswers" },

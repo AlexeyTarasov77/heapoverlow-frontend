@@ -6,11 +6,13 @@ import { fetchQuestionByID } from "../../../shared/store/QuestionsSlice";
 
 export function QuestionPage() {
   const questionID = useIdParam();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchQuestionByID(questionID))
-  }, [dispatch])
-  const { questionDetail, error, isLoading } = useAppSelector((state) => state.questions)
+    dispatch(fetchQuestionByID(questionID));
+  }, [dispatch]);
+  const { questionDetail, error, isLoading } = useAppSelector(
+    (state) => state.questions,
+  );
   return (
     <>
       {questionDetail && (

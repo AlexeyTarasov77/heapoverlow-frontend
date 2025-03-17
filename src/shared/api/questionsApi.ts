@@ -15,5 +15,5 @@ export const questionsApi = {
       return { ...resp, data: QuestionSchema.parse(resp.data) };
     }
     return resp;
-  }
+  },
 };

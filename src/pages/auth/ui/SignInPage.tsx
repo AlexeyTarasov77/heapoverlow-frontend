@@ -6,7 +6,7 @@ import {
   FormTextInput,
   validationRules,
 } from "../../../shared/ui/forms";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { userSignIn } from "../../../shared/store/UsersSlice";
 import { ISignInForm } from "../../../shared/api/usersApi";
@@ -20,24 +20,28 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const alert = useAppSelector(state => state.common.alert)
-  const { isLoading, error, user } = useAppSelector(state => state.users)
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const alert = useAppSelector((state) => state.common.alert);
+  const { isLoading, error, user } = useAppSelector((state) => state.users);
   const onSubmit: SubmitHandler<ISignInForm> = async (data: ISignInForm) => {
-    dispatch(userSignIn(data))
+    dispatch(userSignIn(data));
   };
   useEffect(() => {
-    error && setError("root", { message: error })
-  }, [error, setError])
+    error && setError("root", { message: error });
+  }, [error, setError]);
+  // if already authenticated user on sign in page
+  if (!alert && user) {
+    navigate("/users/profile")
+    return
+  }
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
-  const onSuccess = () => {
-    setTimeout(() => navigate("/"), 3000)
-    return <ShowNotification>{alert}</ShowNotification>
-
-  }
+  const onSuccessfulSignIn = () => {
+    setTimeout(() => navigate("/users/profile"), 2500);
+    return <ShowNotification>{alert}</ShowNotification>;
+  };
   return (
     <Box className="flex items-center justify-center min-h-screen">
       <Box
@@ -76,7 +80,7 @@ export function SignInPage() {
           Sign In
         </Button>
       </Box>
-      {alert && user && onSuccess()}
+      {alert && user && onSuccessfulSignIn()}
     </Box>
   );
 }

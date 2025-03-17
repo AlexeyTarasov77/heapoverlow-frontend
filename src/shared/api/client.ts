@@ -3,13 +3,13 @@ import { SERVER_URL } from "../../app/constants";
 interface IResponseSuccess<T> {
   success: true;
   data: T;
-  status: number
+  status: number;
 }
 
 interface IResponseFailure {
   success: false;
   message: string;
-  status: number
+  status: number;
 }
 
 export type APIResponse<T> = Promise<IResponseFailure | IResponseSuccess<T>>;
@@ -34,9 +34,9 @@ export async function sendReq<T>(
       options = { headers };
     }
   }
-  const resp = await fetch(url, options)
-  const data = await resp.json()
-  return { ...data, status: resp.status }
+  const resp = await fetch(url, options);
+  const data = await resp.json();
+  return { ...data, status: resp.status };
 }
 
 export async function GET<T>(path: string | URL): APIResponse<T> {
@@ -57,5 +57,4 @@ export async function POST<T>(
 export type ReqState = {
   error?: string;
   isLoading: boolean;
-}
-
+};
