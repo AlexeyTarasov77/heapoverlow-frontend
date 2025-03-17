@@ -1,7 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../api/entities";
 import { ISignInForm, ISignUpForm, usersApi } from "../api/usersApi"
 import { authTokenKey, ReqState } from "../api/client";
+import { createAppAsyncThunk } from "../../app/hooks";
+import { showAlert } from "./CommonSlice";
 
 export type UsersState = {
   isAuthenticated: boolean;
@@ -31,7 +33,7 @@ export const usersSlice = createSlice({
   },
 });
 
-export const loadUserByToken = createAsyncThunk("users/loadUserByToken",
+export const loadUserByToken = createAppAsyncThunk("users/loadUserByToken",
   async (_, { dispatch }) => {
     const resp = await usersApi.getMe()
     if (!resp.success) {
@@ -41,10 +43,11 @@ export const loadUserByToken = createAsyncThunk("users/loadUserByToken",
   }
 )
 
-export const signIn = createAsyncThunk<void, ISignInForm>("users/signin",
+export const userSignIn = createAppAsyncThunk<void, ISignInForm>("users/signin",
   async (credentials, { dispatch }) => {
     const resp = await usersApi.signIn(credentials)
     if (!resp.success) {
+      showAlert({ severity: "error", message: resp.message })
       throw new Error(resp.message)
     }
     dispatch(usersSlice.actions.setToken(resp.data))
@@ -52,12 +55,14 @@ export const signIn = createAsyncThunk<void, ISignInForm>("users/signin",
   }
 )
 
-export const signUp = createAsyncThunk<User, ISignUpForm>("users/signup",
-  async (data, _) => {
+export const userSignUp = createAppAsyncThunk<User, ISignUpForm>("users/signup",
+  async (data, { dispatch }) => {
     const resp = await usersApi.signUp(data)
     if (!resp.success) {
+      showAlert({ severity: "error", message: resp.message })
       throw new Error(resp.message)
     }
+    dispatch(usersSlice.actions.setUser(resp.data))
     return resp.data
   }
 )

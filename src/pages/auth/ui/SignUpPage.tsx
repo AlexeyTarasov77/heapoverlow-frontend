@@ -6,7 +6,7 @@ import {
   FormTextInput,
   validationRules,
 } from "../../../shared/ui/forms";
-import { ISignUpForm, signup } from "../api/signup";
+import { ISignUpForm } from "../../../shared/api/usersApi";
 
 export function SignUpPage() {
   const {
@@ -16,10 +16,6 @@ export function SignUpPage() {
     setError,
   } = useForm<ISignUpForm>();
   const onSubmit: SubmitHandler<ISignUpForm> = async (data: ISignUpForm) => {
-    const resp = await signup(data);
-    if (!resp.success) {
-      return setError("root", { type: "custom", message: resp.message });
-    }
     alert("Succesfully signed up!");
   };
   return (

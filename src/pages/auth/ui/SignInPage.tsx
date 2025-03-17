@@ -6,11 +6,12 @@ import {
   FormTextInput,
   validationRules,
 } from "../../../shared/ui/forms";
-import { ISignInForm, signin } from "../api/signin";
-import { authTokenKey } from "../../../shared/api/client";
 import { ReactNode, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { userSignIn } from "../../../shared/store/UsersSlice";
+import { ISignInForm } from "../../../shared/api/usersApi";
 
 export function SignInPage() {
   const {
@@ -19,42 +20,25 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
-  const [success, setSuccess] = useState<boolean | null>(null);
   console.log("errors", errors);
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const alert = useAppSelector((state) => state.common.alert)
   const onSubmit: SubmitHandler<ISignInForm> = async (data: ISignInForm) => {
-    const resp = await signin(data);
-    if (!resp.success) {
-      setSuccess(false);
-      return setError("root", { type: "custom", message: resp.message });
-    }
-    localStorage.setItem(authTokenKey, resp.data);
-    setSuccess(true);
+    dispatch(userSignIn(data)).unwrap()
+      .then(() => setTimeout(() => navigate("/"), 3000))
+      .catch(err => setError("root", { message: err.message }))
   };
   const displayAlert = () => {
-    const show = (node: ReactNode) =>
-      createPortal(
-        <div className="absolute bottom-4 right-4">{node}</div>,
-        document.body,
-      );
-    if (success === true) {
-      return show(
-        <Alert
-          action={
-            <Button color="inherit" size="small">
-              <Link to={"/"}>Go Home</Link>
-            </Button>
-          }
-        >
-          Successfully signed in!
-        </Alert>,
-      );
-    } else if (success === false) {
-      return show(
-        <Alert onClose={() => {}} severity="error">
-          Ooops! Failed to sign in
-        </Alert>,
-      );
+    // const show = (node: ReactNode) =>
+    //   createPortal(
+    //     <div className="absolute bottom-4 right-4">{node}</div>,
+    //     document.body,
+    //   );
+    if (alert) {
+      return <Alert onClose={() => { }} severity={alert.severity}>{alert.message}</Alert>
     }
+    return null
   };
   return (
     <Box className="flex items-center justify-center min-h-screen">
@@ -95,6 +79,10 @@ export function SignInPage() {
         </Button>
       </Box>
       {displayAlert()}
+      {alert &&
+        <Alert onClose={() => { }} severity="error">
+          Ooops! Failed to sign in
+        </Alert>}
     </Box>
   );
 }

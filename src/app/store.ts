@@ -1,13 +1,12 @@
-import { useDispatch, useSelector, useStore } from "react-redux";
 import { questionsSlice, usersSlice } from "../shared/store";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import { commonSlice } from "../shared/store/CommonSlice";
 
-const reducer = combineSlices(questionsSlice, usersSlice);
+const reducer = combineSlices(questionsSlice, usersSlice, commonSlice);
 
 export const store = configureStore({ reducer });
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch
 
-export const useAppDispatch = useDispatch.withTypes<typeof store.dispatch>();
-export const useAppSelector = useSelector.withTypes<RootState>();
-export const useAppStore = useStore.withTypes<typeof store>();
+// const createAppSlice = buildCreateSlice({ creators: { asyncThunk: asyncThunkCreator } })

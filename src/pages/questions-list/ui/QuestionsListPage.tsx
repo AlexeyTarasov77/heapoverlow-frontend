@@ -6,13 +6,13 @@ import { IQueryParams } from "../api/use-questions";
 import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
 import { TagInput } from "../../../shared/ui";
-import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchQuestions } from "../../../shared/store/QuestionsSlice";
 
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
   const dispatch = useAppDispatch()
-  const { data: questions, error, isLoading } = useAppSelector(state => state.questions)
+  const { questions, error, isLoading } = useAppSelector(state => state.questions)
   useEffect(() => {
     dispatch(fetchQuestions(queryParams))
   }, [dispatch, queryParams])
