@@ -1,46 +1,50 @@
 import { Link } from "react-router-dom";
-import { IQuestion } from "../shared/api/questions/types";
-import { useContext } from "react";
-import { LikeQuestionsCtx } from "../context/like-questions";
 import { Badge } from "../shared/ui";
 import { humanizeDate } from "../shared/ui/utils";
+import { Question } from "../shared/api/entities";
+import { toggleLikeQuestion } from "../shared/store/QuestionsSlice";
+import { useAppDispatch } from "../app/hooks";
 
-export function Question({ questionData }: { questionData: IQuestion }) {
-  const ctx = useContext(LikeQuestionsCtx);
-  if (!ctx) throw Error("Question: no LikeQuestionCtx provided");
-  const { toggleLike, checkIsLiked } = ctx;
+interface IProps {
+  data: Question;
+  tagOnClick?: React.MouseEventHandler<HTMLSpanElement>;
+  isLiked: boolean
+}
+
+export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
+  const dispatch = useAppDispatch()
   return (
     <div className="flex gap-3 p-5">
       <div className="flex flex-col gap-3">
         <Badge color="blue" size="xs">
-          {questionData.answersCount} answers
+          {data.answersCount} answers
         </Badge>
         <div>
           <button
             className="bg-red-600 text-white font-semibold p-2 rounded hover:bg-red-500"
-            onClick={(_) => toggleLike(questionData.id)}
+            onClick={() => dispatch(toggleLikeQuestion(data.id))}
           >
-            {checkIsLiked(questionData.id) ? "Unlike" : "Like"}
+            {isLiked ? "Unlike" : "Like"}
           </button>
         </div>
       </div>
       <div className="flex flex-col">
         <h3 className="text-xl text-blue-500 font-semibold">
-          <Link to={`/questions/${questionData.id}`}>{questionData.title}</Link>
+          <Link to={`/questions/${data.id}`}>{data.title}</Link>
         </h3>
-        <p className="text-slate-400 truncate">{questionData.body}</p>
+        <p className="text-slate-400 truncate">{data.body}</p>
         <div className="flex justify-between mt-3 items-center">
           <div className="flex gap-2">
-            {questionData.tags.map((tag, index) => (
-              <Badge key={index}>{tag}</Badge>
+            {data.tags.map((tag, index) => (
+              <Badge key={index} onClick={tagOnClick}>{tag}</Badge>
             ))}
           </div>
           <div className="flex gap-2 items-center">
             <div>
               <img
                 src={
-                  questionData.author.imageUrl ||
-                  `https://robohash.org/${questionData.id}.png?size=50x50`
+                  data.author.imageUrl ||
+                  `https://robohash.org/${data.id}.png?size=50x50`
                 }
                 alt=""
                 width={50}
@@ -48,10 +52,10 @@ export function Question({ questionData }: { questionData: IQuestion }) {
               />
             </div>
             <div className="text-sm text-blue-600">
-              {questionData.author.username}
+              {data.author.username}
             </div>
             <div className="text-slate-500">
-              asked {humanizeDate(questionData.createdAt)}
+              asked {humanizeDate(data.createdAt)}
             </div>
           </div>
         </div>

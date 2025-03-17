@@ -13,11 +13,14 @@ import { ProfilePage } from "../pages/profile-page";
 import { useEffect } from "react";
 import { loadUserByToken } from "../shared/store/UsersSlice";
 import { useAppDispatch } from "./hooks";
+import { fetchQuestions, loadLikedQuestionIds } from "../shared/store/QuestionsSlice";
 
 export function AppRouter() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(loadUserByToken());
+    dispatch(loadLikedQuestionIds())
+    dispatch(fetchQuestions({}))
   });
   return (
     <BrowserRouter>

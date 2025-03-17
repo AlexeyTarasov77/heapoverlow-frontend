@@ -21,19 +21,16 @@ export function CreateQuestionPage() {
     setValue,
     formState: { errors },
   } = useForm<ICreateQuestionForm>();
-  // };
   return (
     <Box className="flex items-center justify-center min-h-screen">
       <Form
         control={control}
         headers={{ "Content-Type": "application/json" }}
         action={SERVER_URL + "/questions"}
-        onSuccess={({}) => alert("Questions succesfully saved")}
+        onSuccess={({ }) => alert("Questions succesfully saved")}
         onError={() => alert("Failed to create question")}
       >
         <Box
-          // component="form"
-          // onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 border border-blue-500 py-32 px-32"
           maxWidth="sm"
           maxHeight="sm"

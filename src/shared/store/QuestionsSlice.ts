@@ -1,13 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ReqState } from "../api/client";
-import { SERVER_URL } from "../../app/constants";
+import { LIKED_QUESTIONS_KEY, SERVER_URL } from "../../app/constants";
 import { questionsApi } from "../api/questionsApi";
 import { Question } from "../api/entities";
 import { createAppAsyncThunk } from "../../app/hooks";
 import { showAlert } from "./CommonSlice";
 
+type QuestionID = number
+
 export type QuestionsState = {
-  likedQuestionsIds: number[];
+  likedQuestionsIds: QuestionID[];
   questionDetail?: Question;
   questions: Question[];
 } & ReqState;
@@ -42,6 +44,29 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
   },
 );
 
+export const loadLikedQuestionIds = createAppAsyncThunk(
+  "users/loadLikedQuestionIds",
+  async (_, { dispatch }) => {
+    const loaded: QuestionID[] = JSON.parse(localStorage.getItem(LIKED_QUESTIONS_KEY) || "[]")
+    dispatch(questionsSlice.actions.setLikedQuestionsIds(loaded))
+  }
+)
+
+export const toggleLikeQuestion = createAppAsyncThunk<void, QuestionID>(
+  "users/removeLikedQuestion",
+  async (questionID, { getState, dispatch }) => {
+    const isLiked = getState().questions.likedQuestionsIds.includes(questionID)
+    dispatch(questionsSlice.actions.toggleLike(questionID))
+    localStorage.setItem(
+      LIKED_QUESTIONS_KEY,
+      JSON.stringify(getState().questions.likedQuestionsIds)
+    );
+    const message = `Queston ${!isLiked && "un"}liked`
+    showAlert({ severity: "info", message })
+  }
+)
+
+
 export const fetchQuestionByID = createAppAsyncThunk<Question, number>(
   "questions/fetchByID",
   async (questionID, { dispatch }) => {
@@ -64,7 +89,19 @@ const initialState: QuestionsState = {
 export const questionsSlice = createSlice({
   name: "questions",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleLike: (state, action: PayloadAction<QuestionID>) => {
+      const isLiked = state.likedQuestionsIds.includes(action.payload)
+      if (isLiked) {
+        state.likedQuestionsIds = state.likedQuestionsIds.filter((value) => value !== action.payload)
+        return
+      }
+      state.likedQuestionsIds.push(action.payload)
+    },
+    setLikedQuestionsIds: (state, action: PayloadAction<QuestionID[]>) => {
+      state.likedQuestionsIds = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchQuestions.pending, (state, _) => {
@@ -88,6 +125,6 @@ export const questionsSlice = createSlice({
       .addCase(fetchQuestionByID.rejected, (state, action) => {
         state.error = action.error.message;
         state.isLoading = false;
-      });
+      })
   },
 });

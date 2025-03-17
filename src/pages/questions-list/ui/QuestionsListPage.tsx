@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { QuestionPreview } from "./QuestionPreview";
 import Button from "@mui/material/Button";
-
-import { IQueryParams } from "../api/use-questions";
+import { IQueryParams } from "../../../shared/store/QuestionsSlice";
 import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
 import { TagInput } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { fetchQuestions } from "../../../shared/store/QuestionsSlice";
+import { Divider } from "@mui/material";
+import { QuestionPreview } from "../../../widgets/question";
+
 
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
   const dispatch = useAppDispatch();
-  const { questions, error, isLoading } = useAppSelector(
+  const { questions, error, isLoading, likedQuestionsIds } = useAppSelector(
     (state) => state.questions,
   );
   useEffect(() => {
@@ -76,13 +77,14 @@ export function QuestionsListPage() {
               return (
                 <>
                   <QuestionPreview
+                    isLiked={likedQuestionsIds.includes(question.id)}
                     key={question.id}
-                    question={question}
+                    data={question}
                     tagOnClick={(e) =>
                       setQueryParams({ tags: [e.currentTarget.innerText] })
                     }
                   />
-                  <div className="border border-gray-400"></div>
+                  <Divider />
                 </>
               );
             })}
