@@ -6,7 +6,7 @@ import {
   FormTextInput,
   validationRules,
 } from "../../../shared/ui/forms";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { userSignIn } from "../../../shared/store/UsersSlice";
 import { ISignInForm } from "../../../shared/api/usersApi";
@@ -31,10 +31,12 @@ export function SignInPage() {
     error && setError("root", { message: error });
   }, [error, setError]);
   // if already authenticated user on sign in page
-  if (!alert && user) {
-    navigate("/users/profile")
-    return
-  }
+  useEffect(() => {
+    console.log(alert, user)
+    if (!alert && !isLoading && user) {
+      navigate("/users/profile")
+    }
+  }, [isLoading])
   if (isLoading) {
     return <div>Loading...</div>;
   }

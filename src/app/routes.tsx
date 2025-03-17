@@ -7,7 +7,7 @@ import { QuestionsListPage } from "../pages/questions-list";
 import { LikedQuestionsListPage } from "../pages/liked-questions";
 import { BrowserRouter } from "react-router-dom";
 import { CreateQuestionPage } from "../pages/create-question";
-import { SignInPage, SignUpPage } from "../pages/auth";
+import { LogoutPage, SignInPage, SignUpPage } from "../pages/auth";
 import { PrivateRoute } from "../widgets";
 import { ProfilePage } from "../pages/profile-page";
 import { useEffect } from "react";
@@ -33,6 +33,7 @@ export function AppRouter() {
           />
           <Route path="/users/signin" element={<SignInPage />} />
           <Route path="/users/signup" element={<SignUpPage />} />
+          <Route path="/users/logout" element={<LogoutPage />} />
           <Route
             path="/users/profile"
             element={<PrivateRoute Component={ProfilePage} />}

@@ -13,11 +13,11 @@ export interface ISignUpForm extends ISignInForm {
 }
 
 export const usersApi = {
-  signUp: async (data: ISignUpForm): APIResponse<User> => {
+  signUp: async (data: ISignUpForm): APIResponse<any> => {
     const resp = await POST("/users/signup", data);
-    if (resp.success) {
-      return { ...resp, data: UserSchema.parse(resp.data) };
-    }
+    // if (resp.success) {
+    //   return { ...resp, data: UserSchema.parse(resp.data) };
+    // }
     return resp;
   },
   signIn: async (data: ISignInForm): APIResponse<string> => {

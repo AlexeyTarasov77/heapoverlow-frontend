@@ -16,7 +16,11 @@ const initialState: UsersState = {
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action: PayloadAction<User | undefined>) => {
+      state.user = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loadUserByToken.pending, (state, _) => {
@@ -24,9 +28,10 @@ export const usersSlice = createSlice({
       })
       .addCase(
         loadUserByToken.fulfilled,
-        (state, action: PayloadAction<User>) => {
+        (state, action: PayloadAction<User | void>) => {
           state.isLoading = false;
-          state.user = action.payload;
+          if (action.payload)
+            state.user = action.payload;
         },
       )
       .addCase(loadUserByToken.rejected, (state, action) => {
@@ -56,15 +61,24 @@ export const usersSlice = createSlice({
   },
 });
 
-export const loadUserByToken = createAppAsyncThunk(
+export const logout = createAppAsyncThunk(
+  "users/logout",
+  async (_, { dispatch }) => {
+    localStorage.removeItem(authTokenKey);
+    dispatch(usersSlice.actions.setUser(undefined))
+  }
+)
+
+export const loadUserByToken = createAppAsyncThunk<User | void>(
   "users/loadUserByToken",
   async (_, thunkAPI) => {
-    console.log("loading user by token");
     const resp = await usersApi.getMe();
-    console.log("user resp", resp);
     if (!resp.success) {
-      if (resp.status == 401) localStorage.removeItem(authTokenKey);
-
+      if (resp.status == 401) {
+        console.log("Not authenticated")
+        localStorage.removeItem(authTokenKey);
+        return
+      }
       throw new Error(resp.message);
     }
     return resp.data;
@@ -89,13 +103,13 @@ export const userSignIn = createAppAsyncThunk<void, ISignInForm>(
   },
 );
 
-export const userSignUp = createAppAsyncThunk<User, ISignUpForm>(
+export const userSignUp = createAppAsyncThunk<void, ISignUpForm>(
   "users/signup",
-  async (data, _) => {
+  async (data, { dispatch }) => {
     const resp = await usersApi.signUp(data);
     if (!resp.success) {
       throw new Error(resp.message);
     }
-    return resp.data;
+    dispatch(showAlert({ severity: "success", message: "You've succesfully signed up. You can login now" }))
   },
 );
