@@ -20,7 +20,7 @@ export interface IQueryParams {
 
 export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
   "questions/fetchAll",
-  async (queryParams, _) => {
+  async (queryParams, { dispatch }) => {
     const params = new URLSearchParams();
     if (queryParams.sort) {
       params.append("sort", queryParams.sort);
@@ -35,7 +35,7 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
     url.search = params.toString();
     const resp = await questionsApi.getQuestions();
     if (!resp.success) {
-      showAlert({ severity: "error", message: resp.message })
+      dispatch(showAlert({ severity: "error", message: resp.message }))
       throw new Error(resp.message);
     }
     return resp.data;
@@ -44,10 +44,10 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
 
 export const fetchQuestionByID = createAppAsyncThunk<Question, number>(
   "questions/fetchByID",
-  async (questionID, _) => {
+  async (questionID, { dispatch }) => {
     const resp = await questionsApi.getQuestionByID(questionID)
     if (!resp.success) {
-      showAlert({ severity: "error", message: resp.message })
+      dispatch(showAlert({ severity: "error", message: resp.message }))
       throw new Error(resp.message)
     }
     return resp.data

@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   BaseInput,
@@ -6,12 +6,11 @@ import {
   FormTextInput,
   validationRules,
 } from "../../../shared/ui/forms";
-import { ReactNode, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { userSignIn } from "../../../shared/store/UsersSlice";
 import { ISignInForm } from "../../../shared/api/usersApi";
+import { ShowNotification } from "../../../widgets/notifications";
 
 export function SignInPage() {
   const {
@@ -20,7 +19,6 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
-  console.log("errors", errors);
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const alert = useAppSelector((state) => state.common.alert)
@@ -28,17 +26,6 @@ export function SignInPage() {
     dispatch(userSignIn(data)).unwrap()
       .then(() => setTimeout(() => navigate("/"), 3000))
       .catch(err => setError("root", { message: err.message }))
-  };
-  const displayAlert = () => {
-    // const show = (node: ReactNode) =>
-    //   createPortal(
-    //     <div className="absolute bottom-4 right-4">{node}</div>,
-    //     document.body,
-    //   );
-    if (alert) {
-      return <Alert onClose={() => { }} severity={alert.severity}>{alert.message}</Alert>
-    }
-    return null
   };
   return (
     <Box className="flex items-center justify-center min-h-screen">
@@ -78,11 +65,7 @@ export function SignInPage() {
           Sign In
         </Button>
       </Box>
-      {displayAlert()}
-      {alert &&
-        <Alert onClose={() => { }} severity="error">
-          Ooops! Failed to sign in
-        </Alert>}
+      <ShowNotification>{alert}</ShowNotification>
     </Box>
   );
 }

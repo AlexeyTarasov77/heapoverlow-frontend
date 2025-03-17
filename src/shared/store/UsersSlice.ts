@@ -47,11 +47,11 @@ export const userSignIn = createAppAsyncThunk<void, ISignInForm>("users/signin",
   async (credentials, { dispatch }) => {
     const resp = await usersApi.signIn(credentials)
     if (!resp.success) {
-      showAlert({ severity: "error", message: resp.message })
       throw new Error(resp.message)
     }
     dispatch(usersSlice.actions.setToken(resp.data))
     dispatch(loadUserByToken())
+    dispatch(showAlert({ severity: "success", message: "You've succefully signed in" }))
   }
 )
 
@@ -59,7 +59,6 @@ export const userSignUp = createAppAsyncThunk<User, ISignUpForm>("users/signup",
   async (data, { dispatch }) => {
     const resp = await usersApi.signUp(data)
     if (!resp.success) {
-      showAlert({ severity: "error", message: resp.message })
       throw new Error(resp.message)
     }
     dispatch(usersSlice.actions.setUser(resp.data))
