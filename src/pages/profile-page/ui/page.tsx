@@ -1,19 +1,23 @@
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
 import { useAppSelector } from "../../../app/hooks";
-import { Avatar, Divider, Typography } from "@mui/material";
+import { Avatar, Divider, Grid2, Typography } from "@mui/material";
 import { QuestionItem } from "./QuestionItem";
+import { Loader } from "../../../shared/ui";
+import { useEffect } from "react";
+import { User } from "../../../entities/users";
 
 export function ProfilePage() {
-  const { user, isLoading } = useAppSelector((state) => state.users);
+  let { user, isLoading } = useAppSelector((state) => state.users);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!user) navigate("/users/signin")
+  }, [user])
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
-  if (!user) {
-    redirect("/users/signin");
-    return <div></div>;
-  }
+  user = user as User
   const avatarSize = { width: 150, height: 150, fontSize: 40 }
   return (
     <div className="flex flex-col mt-7">
@@ -39,7 +43,9 @@ export function ProfilePage() {
       <Divider flexItem sx={{ marginY: 2 }} />
       <div>
         <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>Questions:</Typography>
-        {user.questions.map(question => <QuestionItem key={question.id} question={question} />)}
+        <Grid2 container spacing={2}>
+          {user.questions.map(question => <QuestionItem key={question.id} question={question} />)}
+        </Grid2>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
-import { TagInput } from "../../../shared/ui";
+import { Loader, TagInput } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { Divider } from "@mui/material";
 import { QuestionPreview } from "../../../widgets/question";
@@ -27,11 +27,12 @@ export function QuestionsListPage() {
   const [selectedFilter, setSelectedFilter] = useState<number>(
     Object.keys(filters).indexOf("All"),
   );
-
+  if (isLoading) {
+    return <Loader />
+  }
   return (
     <>
       {error && <p className="text-red-500">{error}</p>}
-      {isLoading && <h3 className="text-3xl text-center mt-10">Loading...</h3>}
       {questions && (
         <div className="p-4">
           <div className="flex justify-between mb-3">

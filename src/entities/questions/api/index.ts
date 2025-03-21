@@ -1,7 +1,7 @@
 import { APIResponse } from "../../../shared/api/types";
-import { Question } from "../model/types";
-import { QuestionSchema } from "../model/schemas";
-import { GET } from "../../../shared/api/client";
+import { ICreateQuestionForm, Question, QuestionID } from "../model/types";
+import { QuestionIDSchema, QuestionSchema } from "../model/schemas";
+import { GET, POST } from "../../../shared/api/client";
 
 export const questionsApi = {
   getQuestions: async (): APIResponse<Question[]> => {
@@ -26,6 +26,13 @@ export const questionsApi = {
     const resp = await GET(url.toString());
     if (resp.success) {
       return { ...resp, data: QuestionSchema.array().parse(resp.data) };
+    }
+    return resp;
+  },
+  createQuestion: async (data: ICreateQuestionForm): APIResponse<QuestionID> => {
+    const resp = await POST<Question>("/questions/", data);
+    if (resp.success) {
+      return { ...resp, data: QuestionIDSchema.parse(resp.data.id) };
     }
     return resp;
   }

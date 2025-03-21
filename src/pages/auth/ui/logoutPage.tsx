@@ -8,7 +8,6 @@ export function LogoutPage() {
   const isNotAuthenticated = !useAppSelector(state => state.users.user)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  console.log(isNotAuthenticated)
   useEffect(() => {
     if (isNotAuthenticated) {
       navigate("/")

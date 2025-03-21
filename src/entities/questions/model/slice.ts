@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { questionsApi } from "../api";
-import { IQueryParams, Question, QuestionID, QuestionsState } from "./types";
+import { ICreateQuestionForm, IQueryParams, Question, QuestionID, QuestionsState } from "./types";
 import { createAppAsyncThunk } from "../../../app/hooks";
 import { LIKED_QUESTIONS_KEY, SERVER_URL } from "../../../shared/constants";
 import { showAlert } from "../../../shared/utils";
@@ -53,6 +53,18 @@ export const questionsSlice = createSlice({
         state.error = action.error.message;
         state.isLoading = false;
       })
+      .addCase(createQuestion.pending, (state, _) => {
+        state.isLoading = true;
+      })
+      .addCase(createQuestion.fulfilled, (state, action) => {
+        state.lastCreatedID = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(createQuestion.rejected, (state, action) => {
+        state.error = action.error.message;
+        state.isLoading = false;
+        state.lastCreatedID = undefined;
+      })
   },
 });
 
@@ -81,8 +93,20 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
   },
 );
 
+export const createQuestion = createAppAsyncThunk<QuestionID, ICreateQuestionForm>(
+  "questions/createQuestion",
+  async (data, { dispatch }) => {
+    const resp = await questionsApi.createQuestion(data);
+    if (!resp.success) {
+      dispatch(showAlert({ severity: "error", message: resp.message }));
+      throw new Error(resp.message);
+    }
+    return resp.data;
+  }
+)
+
 export const loadLikedQuestionIds = createAppAsyncThunk(
-  "users/loadLikedQuestionIds",
+  "questions/loadLikedQuestionIds",
   async (_, { dispatch }) => {
     const loaded: QuestionID[] = JSON.parse(localStorage.getItem(LIKED_QUESTIONS_KEY) || "[]")
     dispatch(questionsSlice.actions.setLikedQuestionsIds(loaded))
@@ -90,7 +114,7 @@ export const loadLikedQuestionIds = createAppAsyncThunk(
 )
 
 export const toggleLikeQuestion = createAppAsyncThunk<void, QuestionID>(
-  "users/removeLikedQuestion",
+  "questions/removeLikedQuestion",
   async (questionID, { getState, dispatch }) => {
     const isLiked = getState().questions.likedQuestionsIds.includes(questionID)
     dispatch(questionsSlice.actions.toggleLike(questionID))

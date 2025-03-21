@@ -1,5 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import {
   BaseInput,
   FormPasswordInput,
@@ -11,6 +11,7 @@ import { ShowNotification } from "../../../widgets/notifications";
 import { useEffect } from "react";
 import { ISignInForm, userSignIn } from "../../../entities/users";
 import { validationHelpers } from "../../../shared/utils";
+import { Loader } from "../../../shared/ui";
 
 export function SignInPage() {
   const {
@@ -19,6 +20,7 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
+  const { isSubmitSuccessful } = useFormState({ control })
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const alert = useAppSelector((state) => state.common.alert);
@@ -31,20 +33,18 @@ export function SignInPage() {
   }, [error, setError]);
   // if already authenticated user on sign in page
   useEffect(() => {
-    console.log(alert, user)
     if (!alert && !isLoading && user) {
       navigate("/users/profile")
     }
   }, [isLoading])
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />
   }
-  const onSuccessfulSignIn = () => {
-    setTimeout(() => navigate("/users/profile"), 2500);
-    return <ShowNotification>{alert}</ShowNotification>;
-  };
+  const isSuccesfullySignedIn = !isLoading && !error && isSubmitSuccessful
+  isSuccesfullySignedIn && setTimeout(() => navigate("/users/profile"), 2500);
   return (
     <Box className="flex items-center justify-center min-h-screen">
+      {alert && <ShowNotification>{alert}</ShowNotification>}
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +81,6 @@ export function SignInPage() {
           Sign In
         </Button>
       </Box>
-      {alert && user && onSuccessfulSignIn()}
     </Box>
   );
 }

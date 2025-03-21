@@ -30,6 +30,7 @@ export const usersSlice = createSlice({
           state.isLoading = false;
           if (action.payload)
             state.user = action.payload;
+          state.error = undefined
         },
       )
       .addCase(loadUserByToken.rejected, (state, action) => {
@@ -41,6 +42,7 @@ export const usersSlice = createSlice({
       })
       .addCase(userSignIn.fulfilled, (state) => {
         state.isLoading = false;
+        state.error = undefined
       })
       .addCase(userSignIn.rejected, (state, action) => {
         state.isLoading = false;
@@ -51,6 +53,7 @@ export const usersSlice = createSlice({
       })
       .addCase(userSignUp.fulfilled, (state, _) => {
         state.isLoading = false;
+        state.error = undefined
       })
       .addCase(userSignUp.rejected, (state, action) => {
         state.isLoading = false;

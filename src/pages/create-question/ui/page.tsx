@@ -1,38 +1,50 @@
 import { Button, Box, Typography } from "@mui/material";
-import { Form, useForm } from "react-hook-form";
-import { TagInput } from "../../../shared/ui";
+import { SubmitHandler, useForm, useFormState } from "react-hook-form";
+import { Loader, TagInput } from "../../../shared/ui";
 import {
   BaseInput,
   FormTextInput,
 } from "../../../shared/ui/forms";
-import { SERVER_URL } from "../../../shared/constants";
 import { validationHelpers } from "../../../shared/utils";
+import { createQuestion, ICreateQuestionForm } from "../../../entities/questions";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { ShowNotification } from "../../../widgets/notifications";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
-export interface ICreateQuestionForm {
-  title: string;
-  body: string;
-  tags: string[];
-}
-
-// TODO: rewrite on redux
 
 export function CreateQuestionPage() {
   const {
     control,
     register,
     setValue,
+    setError,
+    handleSubmit,
     formState: { errors },
   } = useForm<ICreateQuestionForm>();
+  const { isSubmitSuccessful } = useFormState({ control })
+  const { isLoading, error, lastCreatedID } = useAppSelector(state => state.questions)
+  const alert = useAppSelector(state => state.common.alert)
+  const dispatch = useAppDispatch()
+  const onSubmit: SubmitHandler<ICreateQuestionForm> = (data) => {
+    dispatch(createQuestion(data))
+  }
+  const navigate = useNavigate()
+  useEffect(() => {
+    error && setError("root", { message: error });
+  }, [error, setError]);
+  const isSuccesfullyCreated = !isLoading && !error && isSubmitSuccessful
+  isSuccesfullyCreated && navigate(`/questions/${lastCreatedID}`)
+  if (isLoading) {
+    return <Loader />
+  }
   return (
-    <Box className="flex items-center justify-center min-h-screen">
-      <Form
-        control={control}
-        headers={{ "Content-Type": "application/json" }}
-        action={SERVER_URL + "/questions"}
-        onSuccess={({ }) => alert("Questions succesfully saved")}
-        onError={() => alert("Failed to create question")}
-      >
+    <>
+      {alert && <ShowNotification />}
+      < Box className="flex items-center justify-center min-h-screen" >
         <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 border border-blue-500 py-32 px-32"
           maxWidth="sm"
           maxHeight="sm"
@@ -74,7 +86,7 @@ export function CreateQuestionPage() {
             Create
           </Button>
         </Box>
-      </Form>
-    </Box>
+      </Box >
+    </>
   );
 }
