@@ -1,13 +1,11 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { User } from "../api/entities";
-import { ISignInForm, ISignUpForm, usersApi } from "../api/usersApi";
-import { authTokenKey, ReqState } from "../api/client";
-import { createAppAsyncThunk } from "../../app/hooks";
-import { showAlert } from "./CommonSlice";
 
-export type UsersState = {
-  user?: User;
-} & ReqState;
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { User, UsersState } from "./types";
+import { ISignInForm, ISignUpForm, usersApi } from "../api";
+import { authTokenKey } from "../../../shared/api/client";
+import { createAppAsyncThunk } from "../../../app/hooks";
+import { showAlert } from "../../../shared/utils";
+
 
 const initialState: UsersState = {
   isLoading: false,

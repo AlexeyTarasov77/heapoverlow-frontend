@@ -1,14 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AlertT } from "../types/common";
-import { createAppAsyncThunk } from "../../app/hooks";
 
-type CommonState = {
-  alert?: AlertT;
-};
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CommonState, AlertT } from "./types";
+import { createAppAsyncThunk } from "../../../app/hooks";
+
 
 const initialState: CommonState = {};
 
-export const commonSlice = createSlice({
+const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {

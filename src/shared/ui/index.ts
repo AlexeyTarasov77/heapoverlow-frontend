@@ -1,6 +1,4 @@
-export { Input } from "./input";
-export { Badge } from "./badge";
-export { Button } from "./button";
-export { Select } from "./select";
-export { humanizeDate } from "./utils";
-export { TagInput } from "./TagInput";
+export { Badge } from "./badge/badge";
+export { Button } from "./button/button";
+export { Select } from "./select/select";
+export { TagInput } from "./tag-input/TagInput";

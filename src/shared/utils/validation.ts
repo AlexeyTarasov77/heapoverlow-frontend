@@ -1,6 +1,6 @@
 import { RegisterOptions } from "react-hook-form";
 
-export const validationRules = {
+export const validationHelpers = {
   required: () => ({
     required: { value: true, message: "This field is required." },
   }),

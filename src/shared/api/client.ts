@@ -1,4 +1,4 @@
-import { SERVER_URL } from "../../app/constants";
+import { SERVER_URL } from "../constants";
 
 interface IResponseSuccess<T> {
   success: true;
