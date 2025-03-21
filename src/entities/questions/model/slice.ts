@@ -1,4 +1,3 @@
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { questionsApi } from "../api";
 import { IQueryParams, Question, QuestionID, QuestionsState } from "./types";

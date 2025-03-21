@@ -1,18 +1,5 @@
 import { SERVER_URL } from "../constants";
-
-interface IResponseSuccess<T> {
-  success: true;
-  data: T;
-  status: number;
-}
-
-interface IResponseFailure {
-  success: false;
-  message: string;
-  status: number;
-}
-
-export type APIResponse<T> = Promise<IResponseFailure | IResponseSuccess<T>>;
+import { APIResponse } from "./types";
 
 export const authTokenKey = "authToken";
 
@@ -53,8 +40,3 @@ export async function POST<T>(
     headers: { "Content-Type": "application/json" },
   });
 }
-
-export type ReqState = {
-  error?: string;
-  isLoading: boolean;
-};

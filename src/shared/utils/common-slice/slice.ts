@@ -6,7 +6,7 @@ import { createAppAsyncThunk } from "../../../app/hooks";
 
 const initialState: CommonState = {};
 
-const commonSlice = createSlice({
+export const commonSlice = createSlice({
   name: "common",
   initialState,
   reducers: {

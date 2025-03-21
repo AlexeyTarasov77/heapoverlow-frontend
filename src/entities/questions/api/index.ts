@@ -1,5 +1,7 @@
-import { APIResponse, GET } from "./client";
-import { Question, QuestionSchema } from "./entities";
+import { APIResponse } from "../../../shared/api/types";
+import { Question } from "../model/types";
+import { QuestionSchema } from "../model/schemas";
+import { GET } from "../../../shared/api/client";
 
 export const questionsApi = {
   getQuestions: async (): APIResponse<Question[]> => {

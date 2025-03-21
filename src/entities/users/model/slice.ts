@@ -59,7 +59,7 @@ export const usersSlice = createSlice({
   },
 });
 
-export const logout = createAppAsyncThunk(
+export const userLogout = createAppAsyncThunk(
   "users/logout",
   async (_, { dispatch }) => {
     localStorage.removeItem(authTokenKey);

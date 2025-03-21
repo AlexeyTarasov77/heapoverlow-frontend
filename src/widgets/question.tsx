@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { Badge } from "../shared/ui";
-import { humanizeDate } from "../shared/ui/utils";
-import { Question } from "../shared/api/entities";
-import { toggleLikeQuestion } from "../shared/store/QuestionsSlice";
 import { useAppDispatch } from "../app/hooks";
+import { toggleLikeQuestion, Question } from "../entities/questions";
+import { humanizeDate } from "../shared/utils";
 
 interface IProps {
   data: Question;

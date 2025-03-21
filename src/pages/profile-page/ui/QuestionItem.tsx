@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, Divider, Grid2, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { User } from "../../../shared/api/entities";
+import { User } from "../../../entities/users";
 
 export function QuestionItem({ question }: { question: User["questions"][0] }) {
   return (

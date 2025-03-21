@@ -1,17 +1,17 @@
+
 import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
   BaseInput,
   FormPasswordInput,
   FormTextInput,
-  validationRules,
 } from "../../../shared/ui/forms";
-import { ISignUpForm } from "../../../shared/api/usersApi";
-import { userSignUp } from "../../../shared/store/UsersSlice";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ShowNotification } from "../../../widgets/notifications";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ISignUpForm, userSignUp } from "../../../entities/users";
+import { validationHelpers } from "../../../shared/utils";
 
 export function SignUpPage() {
   const {
@@ -59,8 +59,8 @@ export function SignUpPage() {
           name="username"
           control={control}
           rules={{
-            ...validationRules.required(),
-            ...validationRules.minLength(5),
+            ...validationHelpers.required(),
+            ...validationHelpers.minLength(5),
           }}
           label="Username"
         />
@@ -70,7 +70,7 @@ export function SignUpPage() {
           type="email"
           control={control}
           rules={{
-            ...validationRules.required(),
+            ...validationHelpers.required(),
           }}
           label="Email"
         />
@@ -85,8 +85,8 @@ export function SignUpPage() {
           name="password"
           control={control}
           rules={{
-            ...validationRules.required(),
-            ...validationRules.minLength(8),
+            ...validationHelpers.required(),
+            ...validationHelpers.minLength(8),
           }}
         />
         {errors?.root ? (

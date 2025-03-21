@@ -4,15 +4,17 @@ import { TagInput } from "../../../shared/ui";
 import {
   BaseInput,
   FormTextInput,
-  validationRules,
 } from "../../../shared/ui/forms";
-import { SERVER_URL } from "../../../app/constants";
+import { SERVER_URL } from "../../../shared/constants";
+import { validationHelpers } from "../../../shared/utils";
 
 export interface ICreateQuestionForm {
   title: string;
   body: string;
   tags: string[];
 }
+
+// TODO: rewrite on redux
 
 export function CreateQuestionPage() {
   const {
@@ -40,8 +42,8 @@ export function CreateQuestionPage() {
             name="title"
             control={control}
             rules={{
-              ...validationRules.required(),
-              ...validationRules.minLength(10),
+              ...validationHelpers.required(),
+              ...validationHelpers.minLength(10),
             }}
             label="Title"
             Component={FormTextInput}
@@ -51,14 +53,14 @@ export function CreateQuestionPage() {
             name="body"
             control={control}
             rules={{
-              ...validationRules.required(),
-              ...validationRules.minLength(10),
+              ...validationHelpers.required(),
+              ...validationHelpers.minLength(10),
             }}
             label="Body"
           />
           <input
             type="hidden"
-            {...register("tags", validationRules.required())}
+            {...register("tags", validationHelpers.required())}
           />
           <TagInput
             onChange={(tags) => setValue("tags", tags)}

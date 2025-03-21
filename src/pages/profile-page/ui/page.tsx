@@ -28,9 +28,11 @@ export function ProfilePage() {
           <div>
             Member since: <EditCalendarIcon /> {new Date(user.createdAt).toDateString()}
           </div>
-          <div>
-            From: <LocationCityIcon /> {user.location}
-          </div>
+          {user.location &&
+            <div>
+              From: <LocationCityIcon /> {user.location}
+            </div>
+          }
           <div>Reputation: {user.reputation}</div>
         </div>
       </div>

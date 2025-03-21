@@ -1,3 +1,3 @@
-export { SignInPage } from "./ui/SignInPage";
-export { SignUpPage } from "./ui/SignUpPage";
-export { LogoutPage } from "./ui/LogoutPage";
+export { SignInPage } from "./ui/signInPage";
+export { SignUpPage } from "./ui/signUpPage";
+export { LogoutPage } from "./ui/logoutPage";

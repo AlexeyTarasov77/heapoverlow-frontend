@@ -1,6 +1,7 @@
-import { questionsSlice, usersSlice } from "../shared/store";
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { commonSlice } from "../shared/store/CommonSlice";
+import { questionsSlice } from "../entities/questions";
+import { usersSlice } from "../entities/users";
+import { commonSlice } from "../shared/utils/common-slice";
 
 const reducer = combineSlices(questionsSlice, usersSlice, commonSlice);
 

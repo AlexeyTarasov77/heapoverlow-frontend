@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { LayoutPage } from "../pages/layout";
-import { MainPage } from "../pages/main";
+import { HomePage } from "../pages/home";
 import { NotFoundPage } from "../pages/not-found";
 import { QuestionPage } from "../pages/question-detail";
 import { QuestionsListPage } from "../pages/questions-list";
@@ -11,9 +11,9 @@ import { LogoutPage, SignInPage, SignUpPage } from "../pages/auth";
 import { PrivateRoute } from "../widgets";
 import { ProfilePage } from "../pages/profile-page";
 import { useEffect } from "react";
-import { loadUserByToken } from "../shared/store/UsersSlice";
 import { useAppDispatch } from "./hooks";
-import { fetchQuestions, loadLikedQuestionIds } from "../shared/store/QuestionsSlice";
+import { loadUserByToken } from "../entities/users";
+import { loadLikedQuestionIds, fetchQuestions } from "../entities/questions";
 
 export function AppRouter() {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ export function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<LayoutPage />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/questions" element={<QuestionsListPage />} />
           <Route path="/questions/:id" element={<QuestionPage />} />
           <Route path="/questions/liked" element={<LikedQuestionsListPage />} />

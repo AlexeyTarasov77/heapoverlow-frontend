@@ -1,2 +1,2 @@
-export { CreateQuestionPage } from "./ui/CreateQuestionPage";
+export { CreateQuestionPage } from "./ui/page";
 

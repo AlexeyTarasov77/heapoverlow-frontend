@@ -1,16 +1,9 @@
-import { APIResponse, GET, POST } from "./client";
+import { GET, POST } from "../../../shared/api/client";
 import { z } from "zod";
-import { User, UserSchema } from "./entities";
-
-export interface ISignInForm {
-  email: string;
-  password: string;
-}
-
-export interface ISignUpForm extends ISignInForm {
-  username: string;
-  location: string;
-}
+import { UserSchema } from "../model/schemas";
+import { User } from "../model/types";
+import { ISignUpForm, ISignInForm } from "../model/types";
+import { APIResponse } from "../../../shared/api/types";
 
 export const usersApi = {
   signUp: async (data: ISignUpForm): APIResponse<any> => {

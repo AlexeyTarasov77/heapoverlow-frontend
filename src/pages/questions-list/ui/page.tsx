@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-import { IQueryParams } from "../../../shared/store/QuestionsSlice";
 import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
 import { TagInput } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { fetchQuestions } from "../../../shared/store/QuestionsSlice";
 import { Divider } from "@mui/material";
 import { QuestionPreview } from "../../../widgets/question";
+import { fetchQuestions, IQueryParams } from "../../../entities/questions";
 
 
 export function QuestionsListPage() {
@@ -47,7 +46,7 @@ export function QuestionsListPage() {
             <div className="border border-slate-300 rounded-sm flex gap-3 p-1">
               {Object.entries(filters).map(([key, params], index) => (
                 <FilterButton
-                  clicked={index == selectedFilter}
+                  isClicked={index == selectedFilter}
                   key={index}
                   onClick={() => {
                     if (index != selectedFilter) {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { QuestionSchema } from "./schemas";
-import { ReqState } from "../../../shared/api/client";
+import { ReqState } from "../../../shared/api/types"
 
 export type Question = z.infer<typeof QuestionSchema>;
 

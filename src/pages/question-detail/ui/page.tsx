@@ -1,8 +1,8 @@
 import { Badge } from "../../../shared/ui";
-import { useIdParam } from "../../../shared/ui/use-id-param";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { useEffect } from "react";
-import { fetchQuestionByID } from "../../../shared/store/QuestionsSlice";
+import { useIdParam } from "../../../shared/hooks/use-id-param";
+import { fetchQuestionByID } from "../../../entities/questions";
 
 export function QuestionPage() {
   const questionID = useIdParam();

@@ -4,13 +4,13 @@ import { ReactNode } from "react";
 interface IFilterButtonProps {
   children: ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
-  clicked: boolean;
+  isClicked: boolean;
 }
 
 export function FilterButton({
   children,
   onClick,
-  clicked = false,
+  isClicked: clicked = false,
 }: IFilterButtonProps) {
   return (
     <button
