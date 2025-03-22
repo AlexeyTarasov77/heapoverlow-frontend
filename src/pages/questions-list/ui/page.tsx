@@ -7,14 +7,16 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { Divider } from "@mui/material";
 import { QuestionPreview } from "../../../widgets/question";
 import { fetchQuestions, IQueryParams } from "../../../entities/questions";
+import { ShowNotification } from "../../../widgets/notifications";
 
 
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
   const dispatch = useAppDispatch();
-  const { questions, error, isLoading, likedQuestionsIds } = useAppSelector(
+  const { questions, isLoading, likedQuestionsIds } = useAppSelector(
     (state) => state.questions,
   );
+  const alert = useAppSelector(state => state.common.alert)
   useEffect(() => {
     dispatch(fetchQuestions(queryParams));
   }, [dispatch, queryParams]);
@@ -32,7 +34,7 @@ export function QuestionsListPage() {
   }
   return (
     <>
-      {error && <p className="text-red-500">{error}</p>}
+      {alert && <ShowNotification>{alert}</ShowNotification>}
       {questions && (
         <div className="p-4">
           <div className="flex justify-between mb-3">

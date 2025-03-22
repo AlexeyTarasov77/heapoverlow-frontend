@@ -4,10 +4,10 @@ import { User } from "../../../entities/users";
 
 export function QuestionItem({ question }: { question: User["questions"][0] }) {
   return (
-    <Grid2 size={4}>
-      <Card>
+    <Grid2 size={4} minHeight={150} maxHeight={150}>
+      <Card sx={{ height: "100%" }}>
         <CardContent>
-          <div className="flex">
+          <div className="flex gap-3">
             <Typography gutterBottom variant="h6">
               {question.title}
             </Typography>

@@ -1,8 +1,9 @@
-import { Badge } from "../../../shared/ui";
+import { Badge, Loader } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { useEffect } from "react";
 import { useIdParam } from "../../../shared/hooks/use-id-param";
 import { fetchQuestionByID } from "../../../entities/questions";
+import { ShowNotification } from "../../../widgets/notifications";
 
 export function QuestionPage() {
   const questionID = useIdParam();
@@ -10,12 +11,17 @@ export function QuestionPage() {
   useEffect(() => {
     dispatch(fetchQuestionByID(questionID));
   }, [dispatch]);
-  const { questionDetail, error, isLoading } = useAppSelector(
+  const { questionDetail, isLoading } = useAppSelector(
     (state) => state.questions,
   );
+  const alert = useAppSelector(state => state.common.alert)
+  if (isLoading) {
+    return <Loader />
+  }
+
   return (
-    <>
-      {questionDetail && (
+    <>{alert && <ShowNotification>{alert}</ShowNotification>}
+      {questionDetail &&
         <div className="p-3 flex flex-col">
           <div className="font-bold text-2xl">{questionDetail.title}</div>
           <div className="mt-5 flex gap-4 text-lg">
@@ -36,9 +42,7 @@ export function QuestionPage() {
             ))}
           </div>
         </div>
-      )}
-      {error && <p className="text-red-500">{error}</p>}
-      {isLoading && <h3 className="text-3xl text-center mt-10">Loading...</h3>}
+      }
     </>
   );
 }

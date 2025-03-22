@@ -1,16 +1,22 @@
 
 import { z } from "zod";
-import { QuestionAuthorSchema } from "./@x/users";
+import { UserSchema } from "../../users/model/@x/questions";
+import { IDSchema, QuestionSchema } from "./@x/users";
 
-export const QuestionIDSchema = z.number().gt(0)
 
-export const QuestionSchema = z.object({
-  id: QuestionIDSchema,
-  title: z.string(),
+export const QuestionAnswerSchema = z.object({
+  id: IDSchema,
+  upvotes: z.number(),
+  author: UserSchema,
   body: z.string(),
-  tags: z.array(z.string()),
-  author: QuestionAuthorSchema,
-  answersCount: z.number({ coerce: true }),
   createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-});
+  updatedAt: z.string().datetime()
+})
+
+export const QuestionSchemaWithAuthor = QuestionSchema.extend({
+  author: UserSchema,
+})
+
+export const QuestionExtendedSchema = QuestionSchemaWithAuthor.extend({
+  answers: z.array(QuestionAnswerSchema),
+})

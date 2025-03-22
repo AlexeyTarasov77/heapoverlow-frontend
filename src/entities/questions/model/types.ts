@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { QuestionIDSchema, QuestionSchema } from "./schemas";
+import { IDSchema, QuestionSchema } from "./@x/users";
 import { ReqState } from "../../../shared/api/types"
 
 export type Question = z.infer<typeof QuestionSchema>;
 
-export type QuestionID = z.infer<typeof QuestionIDSchema>;
+export type QuestionID = z.infer<typeof IDSchema>;
 
 export interface ICreateQuestionForm {
   title: string;

@@ -1,10 +1,9 @@
 import { z } from "zod";
-import { QuestionAuthorSchema } from "../../questions/model/@x/users";
+import { UserSchema } from "./@x/questions";
 
-export const UserSchema = QuestionAuthorSchema.extend({
+export const UserExtendedSchema = UserSchema.extend({
   location: z.string().nullable(),
   reputation: z.number(),
-  email: z.string(),
   questions: z.array(z.object({
     id: z.number(),
     title: z.string(),

@@ -43,7 +43,7 @@ export function ProfilePage() {
       <Divider flexItem sx={{ marginY: 2 }} />
       <div>
         <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>Questions:</Typography>
-        <Grid2 container spacing={2}>
+        <Grid2 container spacing={2} sx={{ alignItems: "stretch" }}>
           {user.questions.map(question => <QuestionItem key={question.id} question={question} />)}
         </Grid2>
       </div>

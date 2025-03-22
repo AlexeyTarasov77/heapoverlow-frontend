@@ -1,6 +1,6 @@
 import { GET, POST } from "../../../shared/api/client";
 import { z } from "zod";
-import { UserSchema } from "../model/schemas";
+import { UserExtendedSchema } from "../model/schemas";
 import { User } from "../model/types";
 import { ISignUpForm, ISignInForm } from "../model/types";
 import { APIResponse } from "../../../shared/api/types";
@@ -23,7 +23,7 @@ export const usersApi = {
   getMe: async (): APIResponse<User> => {
     const resp = await GET("/users/me");
     if (resp.success) {
-      return { ...resp, data: UserSchema.parse(resp.data) };
+      return { ...resp, data: UserExtendedSchema.parse(resp.data) };
     }
     return resp;
   },
