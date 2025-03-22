@@ -4,7 +4,7 @@ import { FilterButton } from "./FilterButton";
 import { Link } from "react-router-dom";
 import { Loader, TagInput } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { Divider } from "@mui/material";
+import { Divider, Paper } from "@mui/material";
 import { QuestionPreview } from "../../../widgets/question";
 import { fetchQuestions, IQueryParams } from "../../../entities/questions";
 import { ShowNotification } from "../../../widgets/notifications";
@@ -39,11 +39,11 @@ export function QuestionsListPage() {
         <div className="p-4">
           <div className="flex justify-between mb-3">
             <h2 className="font-bold text-3xl text-black">All questions</h2>
-            <div>
+            <Paper elevation={6}>
               <Button variant="contained">
                 <Link to={"/questions/create"}>Ask question</Link>
               </Button>
-            </div>
+            </Paper>
           </div>
           <div className="flex gap-3 items-center justify-end">
             <div className="border border-slate-300 rounded-sm flex gap-3 p-1">

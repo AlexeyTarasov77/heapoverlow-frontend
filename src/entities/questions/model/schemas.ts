@@ -13,10 +13,10 @@ export const QuestionAnswerSchema = z.object({
   updatedAt: z.string().datetime()
 })
 
-export const QuestionSchemaWithAuthor = QuestionSchema.extend({
+export const QuestionWithAuthorSchema = QuestionSchema.extend({
   author: UserSchema,
 })
 
-export const QuestionExtendedSchema = QuestionSchemaWithAuthor.extend({
+export const QuestionExtendedSchema = QuestionWithAuthorSchema.extend({
   answers: z.array(QuestionAnswerSchema),
 })

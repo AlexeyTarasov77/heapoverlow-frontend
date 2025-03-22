@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { questionsApi } from "../api";
-import { ICreateQuestionForm, IQueryParams, Question, QuestionID, QuestionsState } from "./types";
+import { ICreateQuestionForm, IQueryParams, QuestionDetail, QuestionID, QuestionsState } from "./types";
 import { createAppAsyncThunk } from "../../../app/hooks";
 import { LIKED_QUESTIONS_KEY, SERVER_URL } from "../../../shared/constants";
 import { showAlert } from "../../../shared/utils";
+import { Question } from "./types";
 
 
 const initialState: QuestionsState = {
@@ -128,7 +129,7 @@ export const toggleLikeQuestion = createAppAsyncThunk<void, QuestionID>(
 )
 
 
-export const fetchQuestionByID = createAppAsyncThunk<Question, number>(
+export const fetchQuestionByID = createAppAsyncThunk<QuestionDetail, number>(
   "questions/fetchByID",
   async (questionID, { dispatch }) => {
     const resp = await questionsApi.getQuestionByID(questionID);

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useIdParam } from "../../../shared/hooks/use-id-param";
 import { fetchQuestionByID } from "../../../entities/questions";
 import { ShowNotification } from "../../../widgets/notifications";
+import { Answer } from "./answer";
 
 export function QuestionPage() {
   const questionID = useIdParam();
@@ -22,7 +23,7 @@ export function QuestionPage() {
   return (
     <>{alert && <ShowNotification>{alert}</ShowNotification>}
       {questionDetail &&
-        <div className="p-3 flex flex-col">
+        <div className="p-3 flex flex-col max-w-screen-lg">
           <div className="font-bold text-2xl">{questionDetail.title}</div>
           <div className="mt-5 flex gap-4 text-lg">
             <div>
@@ -39,6 +40,11 @@ export function QuestionPage() {
           <div className="mt-5 flex gap-3">
             {questionDetail.tags.map((tag, index) => (
               <Badge key={index}>{tag}</Badge>
+            ))}
+          </div>
+          <div className="flex flex-col gap-5 mt-16">
+            {questionDetail.answers.map(answer => (
+              <Answer item={answer} />
             ))}
           </div>
         </div>
