@@ -1,12 +1,12 @@
 import { TextField } from "@mui/material";
-import { IComponentProps } from "./BaseInput";
+import { IComponentProps } from "./types";
 
-export function FormTextInput({
+export function UITextInput({
   onChange,
   label,
   value,
-  errorMsg,
   type,
+  errorMsg,
 }: IComponentProps) {
   return (
     <TextField

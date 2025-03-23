@@ -9,14 +9,13 @@ import { QuestionPreview } from "../../../widgets/question";
 import { fetchQuestions, IQueryParams } from "../../../entities/questions";
 import { ShowNotification } from "../../../widgets/notifications";
 
-
 export function QuestionsListPage() {
   const [queryParams, setQueryParams] = useState<IQueryParams>({});
   const dispatch = useAppDispatch();
   const { questions, isLoading, likedQuestionsIds } = useAppSelector(
     (state) => state.questions,
   );
-  const alert = useAppSelector(state => state.common.alert)
+  const alert = useAppSelector((state) => state.common.alert);
   useEffect(() => {
     dispatch(fetchQuestions(queryParams));
   }, [dispatch, queryParams]);
@@ -30,7 +29,7 @@ export function QuestionsListPage() {
     Object.keys(filters).indexOf("All"),
   );
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   return (
     <>

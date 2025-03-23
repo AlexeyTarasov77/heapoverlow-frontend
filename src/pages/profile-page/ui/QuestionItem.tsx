@@ -1,4 +1,12 @@
-import { Button, Card, CardActions, CardContent, Divider, Grid2, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Divider,
+  Grid2,
+  Typography,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import { User } from "../../../entities/users";
 
@@ -12,7 +20,9 @@ export function QuestionItem({ question }: { question: User["questions"][0] }) {
               {question.title}
             </Typography>
             <Divider orientation="vertical" variant="middle" flexItem />
-            <Typography sx={{ color: "text.secondary" }}>{new Date(question.createdAt).toDateString()}</Typography>
+            <Typography sx={{ color: "text.secondary" }}>
+              {new Date(question.createdAt).toDateString()}
+            </Typography>
           </div>
         </CardContent>
         <CardActions>
@@ -22,5 +32,5 @@ export function QuestionItem({ question }: { question: User["questions"][0] }) {
         </CardActions>
       </Card>
     </Grid2>
-  )
+  );
 }

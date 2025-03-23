@@ -15,14 +15,15 @@ export function QuestionPage() {
   const { questionDetail, isLoading } = useAppSelector(
     (state) => state.questions,
   );
-  const alert = useAppSelector(state => state.common.alert)
+  const alert = useAppSelector((state) => state.common.alert);
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
-    <>{alert && <ShowNotification>{alert}</ShowNotification>}
-      {questionDetail &&
+    <>
+      {alert && <ShowNotification>{alert}</ShowNotification>}
+      {questionDetail && (
         <div className="p-3 flex flex-col max-w-screen-lg">
           <div className="font-bold text-2xl">{questionDetail.title}</div>
           <div className="mt-5 flex gap-4 text-lg">
@@ -43,12 +44,12 @@ export function QuestionPage() {
             ))}
           </div>
           <div className="flex flex-col gap-5 mt-16">
-            {questionDetail.answers.map(answer => (
+            {questionDetail.answers.map((answer) => (
               <Answer item={answer} />
             ))}
           </div>
         </div>
-      }
+      )}
     </>
   );
 }

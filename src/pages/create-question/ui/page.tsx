@@ -1,17 +1,16 @@
 import { Button, Box, Typography } from "@mui/material";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import { Loader, TagInput } from "../../../shared/ui";
-import {
-  BaseInput,
-  FormTextInput,
-} from "../../../shared/ui/forms";
+import { UIInput } from "../../../shared/ui/forms";
 import { validationHelpers } from "../../../shared/utils";
-import { createQuestion, ICreateQuestionForm } from "../../../entities/questions";
+import {
+  createQuestion,
+  ICreateQuestionForm,
+} from "../../../entities/questions";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ShowNotification } from "../../../widgets/notifications";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
 
 export function CreateQuestionPage() {
   const {
@@ -22,26 +21,28 @@ export function CreateQuestionPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<ICreateQuestionForm>();
-  const { isSubmitSuccessful } = useFormState({ control })
-  const { isLoading, error, lastCreatedID } = useAppSelector(state => state.questions)
-  const alert = useAppSelector(state => state.common.alert)
-  const dispatch = useAppDispatch()
+  const { isSubmitSuccessful } = useFormState({ control });
+  const { isLoading, error, lastCreatedID } = useAppSelector(
+    (state) => state.questions,
+  );
+  const alert = useAppSelector((state) => state.common.alert);
+  const dispatch = useAppDispatch();
   const onSubmit: SubmitHandler<ICreateQuestionForm> = (data) => {
-    dispatch(createQuestion(data))
-  }
-  const navigate = useNavigate()
+    dispatch(createQuestion(data));
+  };
+  const navigate = useNavigate();
   useEffect(() => {
     error && setError("root", { message: error });
   }, [error, setError]);
-  const isSuccesfullyCreated = !isLoading && !error && isSubmitSuccessful
-  isSuccesfullyCreated && navigate(`/questions/${lastCreatedID}`)
+  const isSuccesfullyCreated = !isLoading && !error && isSubmitSuccessful;
+  isSuccesfullyCreated && navigate(`/questions/${lastCreatedID}`);
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   return (
     <>
       {alert && <ShowNotification />}
-      < Box className="flex items-center justify-center min-h-screen" >
+      <Box className="flex items-center justify-center min-h-screen">
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -50,7 +51,7 @@ export function CreateQuestionPage() {
           maxHeight="sm"
         >
           <Typography variant="h4">Create question</Typography>
-          <BaseInput
+          <UIInput.Text
             name="title"
             control={control}
             rules={{
@@ -58,10 +59,8 @@ export function CreateQuestionPage() {
               ...validationHelpers.minLength(10),
             }}
             label="Title"
-            Component={FormTextInput}
           />
-          <BaseInput
-            Component={FormTextInput}
+          <UIInput.Text
             name="body"
             control={control}
             rules={{
@@ -86,7 +85,7 @@ export function CreateQuestionPage() {
             Create
           </Button>
         </Box>
-      </Box >
+      </Box>
     </>
   );
 }

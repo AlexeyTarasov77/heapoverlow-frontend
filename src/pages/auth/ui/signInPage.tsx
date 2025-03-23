@@ -1,9 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import {
-  BaseInput,
-  FormPasswordInput,
-  FormTextInput,
+  UIInput
 } from "../../../shared/ui/forms";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -20,7 +18,7 @@ export function SignInPage() {
     formState: { errors },
     setError,
   } = useForm<ISignInForm>();
-  const { isSubmitSuccessful } = useFormState({ control })
+  const { isSubmitSuccessful } = useFormState({ control });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const alert = useAppSelector((state) => state.common.alert);
@@ -34,13 +32,13 @@ export function SignInPage() {
   // if already authenticated user on sign in page
   useEffect(() => {
     if (!alert && !isLoading && user) {
-      navigate("/users/profile")
+      navigate("/users/profile");
     }
-  }, [isLoading])
+  }, [isLoading]);
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
-  const isSuccesfullySignedIn = !isLoading && !error && isSubmitSuccessful
+  const isSuccesfullySignedIn = !isLoading && !error && isSubmitSuccessful;
   isSuccesfullySignedIn && setTimeout(() => navigate("/users/profile"), 2500);
   return (
     <Box className="flex items-center justify-center min-h-screen">
@@ -53,8 +51,7 @@ export function SignInPage() {
         maxHeight="sm"
       >
         <Typography variant="h4">Sign In</Typography>
-        <BaseInput
-          Component={FormTextInput}
+        <UIInput.Text
           name="email"
           type="email"
           control={control}
@@ -63,8 +60,7 @@ export function SignInPage() {
           }}
           label="Email"
         />
-        <BaseInput
-          Component={FormPasswordInput}
+        <UIInput.Password
           name="password"
           control={control}
           rules={{

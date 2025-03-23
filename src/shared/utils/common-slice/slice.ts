@@ -1,8 +1,6 @@
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CommonState, AlertT } from "./types";
 import { createAppAsyncThunk } from "../../../app/hooks";
-
 
 const initialState: CommonState = {};
 

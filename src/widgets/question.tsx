@@ -7,11 +7,11 @@ import { humanizeDate } from "../shared/utils";
 interface IProps {
   data: Question;
   tagOnClick?: React.MouseEventHandler<HTMLSpanElement>;
-  isLiked: boolean
+  isLiked: boolean;
 }
 
 export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   return (
     <div className="flex gap-3 p-5">
       <div className="flex flex-col gap-3">
@@ -35,7 +35,9 @@ export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
         <div className="flex justify-between mt-3 items-center">
           <div className="flex gap-2">
             {data.tags.map((tag, index) => (
-              <Badge key={index} onClick={tagOnClick}>{tag}</Badge>
+              <Badge key={index} onClick={tagOnClick}>
+                {tag}
+              </Badge>
             ))}
           </div>
           <div className="flex gap-2 items-center">
@@ -50,9 +52,7 @@ export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
                 height={50}
               />
             </div>
-            <div className="text-sm text-blue-600">
-              {data.author.username}
-            </div>
+            <div className="text-sm text-blue-600">{data.author.username}</div>
             <div className="text-slate-500">
               asked {humanizeDate(data.createdAt)}
             </div>

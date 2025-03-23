@@ -7,22 +7,21 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { useState } from "react";
-import { IComponentProps } from "./BaseInput";
+import { IComponentProps } from "./types";
 
-export function FormPasswordInput({
+export function UIPasswordInput({
   onChange,
   value,
   errorMsg,
   className,
 }: IComponentProps) {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <FormControl className={className} variant="outlined">
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <OutlinedInput
         onChange={onChange}
         value={value}
-        id="outlined-adornment-password"
         type={showPassword ? "text" : "password"}
         endAdornment={
           <InputAdornment position="end">
@@ -31,8 +30,6 @@ export function FormPasswordInput({
                 showPassword ? "hide the password" : "display the password"
               }
               onClick={() => setShowPassword((prev) => !prev)}
-              // onMouseDown={(e) => e.preventDefault()}
-              // onMouseUp={(e) => e.preventDefault()}
               edge="end"
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}

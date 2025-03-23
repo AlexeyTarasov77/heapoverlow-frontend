@@ -19,8 +19,8 @@ export function AppRouter() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(loadUserByToken());
-    dispatch(loadLikedQuestionIds())
-    dispatch(fetchQuestions({}))
+    dispatch(loadLikedQuestionIds());
+    dispatch(fetchQuestions({}));
   });
   return (
     <BrowserRouter>

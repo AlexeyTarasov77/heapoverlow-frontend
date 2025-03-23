@@ -1,4 +1,3 @@
-
 export const humanizeDate = (date: Date | string): string => {
   date = new Date(date);
   const formattedDate =

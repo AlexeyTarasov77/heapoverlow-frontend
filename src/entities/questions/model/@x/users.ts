@@ -1,7 +1,6 @@
-
 import { z } from "zod";
 
-export const IDSchema = z.number().gt(0)
+export const IDSchema = z.number().gt(0);
 
 export const QuestionSchema = z.object({
   id: IDSchema,

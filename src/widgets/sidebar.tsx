@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { CoreIcon } from "../assets/CoreIcon";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import LogoutIcon from '@mui/icons-material/Logout';
+import LogoutIcon from "@mui/icons-material/Logout";
 import QuestionsIcon from "@mui/icons-material/QuestionAnswer";
 import SignInIcon from "@mui/icons-material/Login";
 import SignUpIcon from "@mui/icons-material/HowToReg";

@@ -1,15 +1,25 @@
 import { APIResponse } from "../../../shared/api/types";
-import { ICreateQuestionForm, QuestionDetail, QuestionID } from "../model/types";
+import {
+  ICreateQuestionForm,
+  QuestionDetail,
+  QuestionID,
+} from "../model/types";
 import { IDSchema } from "../model/@x/users";
 import { GET, POST } from "../../../shared/api/client";
-import { QuestionExtendedSchema, QuestionWithAuthorSchema } from "../model/schemas";
+import {
+  QuestionExtendedSchema,
+  QuestionWithAuthorSchema,
+} from "../model/schemas";
 import { Question } from "../model/types";
 
 export const questionsApi = {
   getQuestions: async (): APIResponse<Question[]> => {
     const resp = await GET("/questions");
     if (resp.success) {
-      return { ...resp, data: QuestionWithAuthorSchema.array().parse(resp.data) };
+      return {
+        ...resp,
+        data: QuestionWithAuthorSchema.array().parse(resp.data),
+      };
     }
     return resp;
   },
@@ -27,15 +37,20 @@ export const questionsApi = {
     url.search = params.toString();
     const resp = await GET(url.toString());
     if (resp.success) {
-      return { ...resp, data: QuestionWithAuthorSchema.array().parse(resp.data) };
+      return {
+        ...resp,
+        data: QuestionWithAuthorSchema.array().parse(resp.data),
+      };
     }
     return resp;
   },
-  createQuestion: async (data: ICreateQuestionForm): APIResponse<QuestionID> => {
+  createQuestion: async (
+    data: ICreateQuestionForm,
+  ): APIResponse<QuestionID> => {
     const resp = await POST<Question>("/questions/", data);
     if (resp.success) {
       return { ...resp, data: IDSchema.parse(resp.data.id) };
     }
     return resp;
-  }
+  },
 };

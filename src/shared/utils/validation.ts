@@ -11,4 +11,3 @@ export const validationHelpers = {
     maxLength: { value, message: `Field length should be <= ${value}` },
   }),
 };
-

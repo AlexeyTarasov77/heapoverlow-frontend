@@ -1,3 +1,1 @@
-export { BaseInput } from "./BaseInput";
-export { FormPasswordInput } from "./FormPasswordInput";
-export { FormTextInput } from "./FormTextInput";
+export { UIInput } from "./Input";

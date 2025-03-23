@@ -1,5 +1,3 @@
-
-
 export interface IResponseSuccess<T> {
   success: true;
   data: T;

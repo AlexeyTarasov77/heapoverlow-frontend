@@ -1,10 +1,7 @@
-
 import { Box, Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import {
-  BaseInput,
-  FormPasswordInput,
-  FormTextInput,
+  UIInput
 } from "../../../shared/ui/forms";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ShowNotification } from "../../../widgets/notifications";
@@ -22,7 +19,7 @@ export function SignUpPage() {
     setError,
   } = useForm<ISignUpForm>();
   const dispatch = useAppDispatch();
-  const { isSubmitSuccessful } = useFormState({ control })
+  const { isSubmitSuccessful } = useFormState({ control });
   const navigate = useNavigate();
   const alert = useAppSelector((state) => state.common.alert);
   const { isLoading, error, user } = useAppSelector((state) => state.users);
@@ -35,13 +32,13 @@ export function SignUpPage() {
   // if already authenticated user on sign up page
   useEffect(() => {
     if (!isLoading && user) {
-      navigate("/users/profile")
+      navigate("/users/profile");
     }
-  }, [isLoading])
+  }, [isLoading]);
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
-  const isSuccesfulSignUp = !isLoading && !error && isSubmitSuccessful
+  const isSuccesfulSignUp = !isLoading && !error && isSubmitSuccessful;
   isSuccesfulSignUp && setTimeout(() => navigate("/users/signin"), 2500);
   return (
     <Box className="flex items-center justify-center min-h-screen">
@@ -54,8 +51,7 @@ export function SignUpPage() {
         maxHeight="sm"
       >
         <Typography variant="h4">Sign Up</Typography>
-        <BaseInput
-          Component={FormTextInput}
+        <UIInput.Text
           name="username"
           control={control}
           rules={{
@@ -64,8 +60,7 @@ export function SignUpPage() {
           }}
           label="Username"
         />
-        <BaseInput
-          Component={FormTextInput}
+        <UIInput.Text
           name="email"
           type="email"
           control={control}
@@ -74,14 +69,12 @@ export function SignUpPage() {
           }}
           label="Email"
         />
-        <BaseInput
-          Component={FormTextInput}
+        <UIInput.Text
           name="location"
           control={control}
           label="Location"
         />
-        <BaseInput
-          Component={FormPasswordInput}
+        <UIInput.Password
           name="password"
           control={control}
           rules={{
