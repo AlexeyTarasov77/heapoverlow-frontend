@@ -1,3 +1,4 @@
+"use client"
 import { Button, Box, Typography } from "@mui/material";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import { Loader, TagInput } from "../../../shared/ui";
@@ -7,10 +8,10 @@ import {
   createQuestion,
   ICreateQuestionForm,
 } from "../../../entities/questions";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { ShowNotification } from "../../../widgets/notifications";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export function CreateQuestionPage() {
   const {
@@ -30,12 +31,12 @@ export function CreateQuestionPage() {
   const onSubmit: SubmitHandler<ICreateQuestionForm> = (data) => {
     dispatch(createQuestion(data));
   };
-  const navigate = useNavigate();
+  const router = useRouter()
   useEffect(() => {
     error && setError("root", { message: error });
   }, [error, setError]);
   const isSuccesfullyCreated = !isLoading && !error && isSubmitSuccessful;
-  isSuccesfullyCreated && navigate(`/questions/${lastCreatedID}`);
+  isSuccesfullyCreated && router.push(`/questions/${lastCreatedID}`);
   if (isLoading) {
     return <Loader />;
   }

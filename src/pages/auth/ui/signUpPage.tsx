@@ -1,15 +1,16 @@
-import { Box, Button, Typography } from "@mui/material";
+"use client"
+import { Button, Typography } from "@mui/material";
 import { SubmitHandler, useForm, useFormState } from "react-hook-form";
 import {
   UIInput
 } from "../../../shared/ui/forms";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { ShowNotification } from "../../../widgets/notifications";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { ISignUpForm, userSignUp } from "../../../entities/users";
 import { validationHelpers } from "../../../shared/utils";
 import { Loader } from "../../../shared/ui";
+import { AuthForm } from "./form";
+import { useRouter } from "next/navigation";
 
 export function SignUpPage() {
   const {
@@ -20,9 +21,8 @@ export function SignUpPage() {
   } = useForm<ISignUpForm>();
   const dispatch = useAppDispatch();
   const { isSubmitSuccessful } = useFormState({ control });
-  const navigate = useNavigate();
-  const alert = useAppSelector((state) => state.common.alert);
   const { isLoading, error, user } = useAppSelector((state) => state.users);
+  const router = useRouter()
   const onSubmit: SubmitHandler<ISignUpForm> = async (data: ISignUpForm) => {
     dispatch(userSignUp(data));
   };
@@ -32,65 +32,60 @@ export function SignUpPage() {
   // if already authenticated user on sign up page
   useEffect(() => {
     if (!isLoading && user) {
-      navigate("/users/profile");
+      router.replace("/users/profile");
     }
   }, [isLoading]);
   if (isLoading) {
     return <Loader />;
   }
   const isSuccesfulSignUp = !isLoading && !error && isSubmitSuccessful;
-  isSuccesfulSignUp && setTimeout(() => navigate("/users/signin"), 2500);
+  isSuccesfulSignUp && setTimeout(() => router.push("/users/signin"), 2500);
   return (
-    <Box className="flex items-center justify-center min-h-screen">
-      {alert && <ShowNotification>{alert}</ShowNotification>}
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 border border-blue-500 py-32 px-32"
-        maxWidth="sm"
-        maxHeight="sm"
-      >
-        <Typography variant="h4">Sign Up</Typography>
-        <UIInput.Text
-          name="username"
-          control={control}
-          rules={{
-            ...validationHelpers.required(),
-            ...validationHelpers.minLength(5),
-          }}
-          label="Username"
-        />
-        <UIInput.Text
-          name="email"
-          type="email"
-          control={control}
-          rules={{
-            ...validationHelpers.required(),
-          }}
-          label="Email"
-        />
-        <UIInput.Text
-          name="location"
-          control={control}
-          label="Location"
-        />
-        <UIInput.Password
-          name="password"
-          control={control}
-          rules={{
-            ...validationHelpers.required(),
-            ...validationHelpers.minLength(8),
-          }}
-        />
-        {errors?.root ? (
-          <p className="text-red-500 text-sm">
-            {errors.root.message || "Failed to sign up"}
-          </p>
-        ) : null}
-        <Button type="submit" variant="contained">
-          Sign Up
-        </Button>
-      </Box>
-    </Box>
+
+    <AuthForm
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Typography variant="h4">Sign Up</Typography>
+      <UIInput.Text
+        name="username"
+        control={control}
+        rules={{
+          ...validationHelpers.required(),
+          ...validationHelpers.minLength(5),
+        }}
+        label="Username"
+      />
+      <UIInput.Text
+        name="email"
+        type="email"
+        control={control}
+        rules={{
+          ...validationHelpers.required(),
+        }}
+        label="Email"
+      />
+      <UIInput.Text
+        name="location"
+        control={control}
+        label="Location"
+      />
+      <UIInput.Password
+        name="password"
+        control={control}
+        rules={{
+          ...validationHelpers.required(),
+          ...validationHelpers.minLength(8),
+        }}
+      />
+      {errors?.root ? (
+        <p className="text-red-500 text-sm">
+          {errors.root.message || "Failed to sign up"}
+        </p>
+      ) : null}
+      <Button type="submit" variant="contained">
+        Sign Up
+      </Button>
+    </AuthForm>
+
   );
 }

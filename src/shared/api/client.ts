@@ -21,6 +21,7 @@ export async function sendReq<T>(
       options = { headers };
     }
   }
+  // options = { ...options, credentials: "include" }
   const resp = await fetch(url, options);
   const data = await resp.json();
   return { ...data, status: resp.status };

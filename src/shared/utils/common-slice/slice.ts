@@ -1,6 +1,7 @@
+"use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CommonState, AlertT } from "./types";
-import { createAppAsyncThunk } from "../../../app/hooks";
+import { createAppAsyncThunk } from "../../../app/store";
 
 const initialState: CommonState = {};
 

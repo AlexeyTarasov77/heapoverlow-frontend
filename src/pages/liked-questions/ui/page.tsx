@@ -1,5 +1,6 @@
 import { QuestionPreview } from "../../../widgets/question";
-import { useAppSelector } from "../../../app/hooks";
+"use client"
+import { useAppSelector } from "../../../app/store";
 import { Divider } from "@mui/material";
 
 export function LikedQuestionsListPage() {

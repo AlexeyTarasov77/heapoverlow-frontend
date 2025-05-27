@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+"use client"
 import { Badge } from "../shared/ui";
-import { useAppDispatch } from "../app/hooks";
+import { useAppDispatch } from "../app/store";
 import { toggleLikeQuestion, Question } from "../entities/questions";
 import { humanizeDate } from "../shared/utils";
+import Link from "next/link";
+import Image from "next/image";
 
 interface IProps {
   data: Question;
@@ -29,7 +31,7 @@ export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
       </div>
       <div className="flex flex-col">
         <h3 className="text-xl text-blue-500 font-semibold">
-          <Link to={`/questions/${data.id}`}>{data.title}</Link>
+          <Link href={`/questions/${data.id}`}>{data.title}</Link>
         </h3>
         <p className="text-slate-400 truncate">{data.body}</p>
         <div className="flex justify-between mt-3 items-center">
@@ -42,7 +44,7 @@ export function QuestionPreview({ data, isLiked, tagOnClick }: IProps) {
           </div>
           <div className="flex gap-2 items-center">
             <div>
-              <img
+              <Image
                 src={
                   data.author.imageUrl ||
                   `https://robohash.org/${data.id}.png?size=50x50`

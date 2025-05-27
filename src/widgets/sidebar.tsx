@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+"use client"
 import { CoreIcon } from "../assets/CoreIcon";
 import HomeIcon from "@mui/icons-material/Home";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -7,7 +7,8 @@ import QuestionsIcon from "@mui/icons-material/QuestionAnswer";
 import SignInIcon from "@mui/icons-material/Login";
 import SignUpIcon from "@mui/icons-material/HowToReg";
 import { ReactElement } from "react";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../app/store";
+import Link from "next/link";
 
 interface ISidebarLink {
   name: string;
@@ -41,7 +42,7 @@ export function Sidebar() {
         <CoreIcon />
       </div>
       {linksList.map((link, i) => (
-        <Link key={i} to={link.href} className="flex items-center gap-2 py-2">
+        <Link key={i} href={link.href} className="flex items-center gap-2 py-2">
           <div className="flex gap-3">
             <div className="w-6 h-6">{link.icon}</div>
             <div>{link.name}</div>

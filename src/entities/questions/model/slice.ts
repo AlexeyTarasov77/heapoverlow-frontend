@@ -1,3 +1,4 @@
+"use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { questionsApi } from "../api";
 import {
@@ -7,7 +8,7 @@ import {
   QuestionID,
   QuestionsState,
 } from "./types";
-import { createAppAsyncThunk } from "../../../app/hooks";
+import { createAppAsyncThunk } from "../../../app/store";
 import { LIKED_QUESTIONS_KEY, SERVER_URL } from "../../../shared/constants";
 import { showAlert } from "../../../shared/utils";
 import { Question } from "./types";

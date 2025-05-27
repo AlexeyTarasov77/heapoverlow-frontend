@@ -8,6 +8,7 @@ export {
 } from "./model/slice";
 export type {
   QuestionDetail,
+  Question,
   IQueryParams,
   ICreateQuestionForm,
 } from "./model/types";

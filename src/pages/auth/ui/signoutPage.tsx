@@ -1,21 +1,23 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { userLogout } from "../../../entities/users";
+"use client"
 
-export function LogoutPage() {
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { Button, Typography } from "@mui/material";
+import { userLogout } from "../../../entities/users";
+import { useRouter } from "next/navigation";
+
+export function SignOutPage() {
   const isNotAuthenticated = !useAppSelector((state) => state.users.user);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const router = useRouter()
   useEffect(() => {
     if (isNotAuthenticated) {
-      navigate("/");
+      router.replace("/")
     }
   }, []);
   const onLogoutConfirm = () => {
     dispatch(userLogout());
-    navigate("/users/signin");
+    router.replace("/users/signin");
   };
   return (
     <div className="flex justify-center items-center h-full">
@@ -30,7 +32,7 @@ export function LogoutPage() {
           <Button
             variant="contained"
             color="error"
-            onClick={() => navigate(-1)}
+            onClick={() => router.back()}
           >
             No
           </Button>

@@ -1,24 +1,18 @@
-import { useNavigate } from "react-router-dom";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-import { useAppSelector } from "../../../app/hooks";
+"use client"
+import { useAppSelector } from "../../../app/store";
 import { Divider, Grid2, Typography } from "@mui/material";
 import { QuestionItem } from "./QuestionItem";
 import { Loader } from "../../../shared/ui";
-import { useEffect } from "react";
-import { User } from "../../../entities/users";
 import { UserAvatar } from "../../../shared/ui/user-avatar/UserAvatar";
 
 export function ProfilePage() {
   let { user, isLoading } = useAppSelector((state) => state.users);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user) navigate("/users/signin");
-  }, [user]);
   if (isLoading) {
     return <Loader />;
   }
-  user = user as User;
+  user = user!
   const avatarSize = { width: 150, height: 150, fontSize: 40 };
   return (
     <div className="flex flex-col mt-7">

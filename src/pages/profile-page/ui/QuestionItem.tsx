@@ -7,8 +7,8 @@ import {
   Grid2,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { User } from "../../../entities/users";
+import Link from "next/link";
 
 export function QuestionItem({ question }: { question: User["questions"][0] }) {
   return (
@@ -27,7 +27,7 @@ export function QuestionItem({ question }: { question: User["questions"][0] }) {
         </CardContent>
         <CardActions>
           <Button size="small">
-            <Link to={`/questions/${question.id}`}>Learn more</Link>
+            <Link href={`/questions/${question.id}`}>Learn more</Link>
           </Button>
         </CardActions>
       </Card>

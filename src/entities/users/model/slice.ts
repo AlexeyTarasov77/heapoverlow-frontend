@@ -1,9 +1,11 @@
+"use client"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UsersState } from "./types";
-import { ISignInForm, ISignUpForm, usersApi } from "../api";
+import { ISignInForm, ISignUpForm } from "../model/types";
 import { authTokenKey } from "../../../shared/api/client";
-import { createAppAsyncThunk } from "../../../app/hooks";
+import { createAppAsyncThunk } from "../../../app/store";
 import { showAlert } from "../../../shared/utils";
+import { usersApi } from "../api";
 
 const initialState: UsersState = {
   isLoading: false,

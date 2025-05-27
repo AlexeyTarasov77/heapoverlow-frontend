@@ -1,13 +1,12 @@
+"use client"
 import { Badge, Loader } from "../../../shared/ui";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { useEffect } from "react";
-import { useIdParam } from "../../../shared/hooks/use-id-param";
 import { fetchQuestionByID } from "../../../entities/questions";
 import { ShowNotification } from "../../../widgets/notifications";
 import { Answer } from "./answer";
 
-export function QuestionPage() {
-  const questionID = useIdParam();
+export function QuestionPage({ questionID }: { questionID: number }) {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchQuestionByID(questionID));

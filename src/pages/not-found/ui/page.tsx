@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export function NotFoundPage() {
   return (
@@ -12,7 +12,7 @@ export function NotFoundPage() {
         </p>
       </div>
       <div className="mt-4">
-        <Link to="/" className="rounded-lg bg-blue-500 text-white text-xl p-3">
+        <Link href="/" className="rounded-lg bg-blue-500 text-white text-xl p-3">
           Go Home
         </Link>
       </div>
