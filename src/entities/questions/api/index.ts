@@ -11,12 +11,16 @@ import {
   QuestionWithAuthorSchema,
 } from "../model/schemas";
 import { Question } from "../model/types";
+import { SERVER_URL } from "../../../shared/constants";
 
 // TODO: throw error if response is not success
 export const questionsApi = {
-  getQuestions: async (): APIResponse<Question[]> => {
-    await (new Promise(resolve => setTimeout(resolve, 2000)))
-    const resp = await GET("/questions");
+  getQuestions: async (query?: URLSearchParams): APIResponse<Question[]> => {
+    const url = new URL("/questions", SERVER_URL);
+    if (query) {
+      url.search = query.toString();
+    }
+    const resp = await GET(url);
     if (resp.success) {
       return {
         ...resp,
@@ -26,7 +30,6 @@ export const questionsApi = {
     return resp;
   },
   getQuestionByID: async (questionID: number): APIResponse<QuestionDetail> => {
-    await (new Promise(resolve => setTimeout(resolve, 2000)))
     const resp = await GET("/questions/" + questionID);
     if (resp.success) {
       return { ...resp, data: QuestionExtendedSchema.parse(resp.data) };

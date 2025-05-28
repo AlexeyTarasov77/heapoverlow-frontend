@@ -90,9 +90,7 @@ export const fetchQuestions = createAppAsyncThunk<Question[], IQueryParams>(
     if (queryParams.tags) {
       queryParams.tags.forEach((tag) => params.append("tags", String(tag)));
     }
-    const url = new URL("/questions", SERVER_URL);
-    url.search = params.toString();
-    const resp = await questionsApi.getQuestions();
+    const resp = await questionsApi.getQuestions(params);
     if (!resp.success) {
       dispatch(showAlert({ severity: "error", message: resp.message }));
       throw new Error(resp.message);
