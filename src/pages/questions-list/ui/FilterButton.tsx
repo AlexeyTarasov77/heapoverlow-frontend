@@ -1,20 +1,19 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-interface IFilterButtonProps {
+interface IFilterButtonProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   children: ReactNode;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
   isClicked: boolean;
 }
 
 export function FilterButton({
   children,
-  onClick,
   isClicked: clicked = false,
+  ...rest
 }: IFilterButtonProps) {
   return (
     <button
-      onClick={onClick}
+      {...rest}
       className={clsx(
         "text-sm text-slate-500 transition-colors p-1",
         clicked ? "bg-blue-100 hover:bg-blue-200" : "hover:bg-slate-100",

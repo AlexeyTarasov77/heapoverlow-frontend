@@ -18,10 +18,10 @@ export function QuestionsListPage() {
   useEffect(() => {
     dispatch(fetchQuestions(queryParams));
   }, [dispatch, queryParams]);
-  const filters: Record<string, IQueryParams | undefined> = {
+  const filters: Record<string, IQueryParams | null> = {
     Newest: { sort: "newest" },
     "Most answers": { sort: "mostAnswers" },
-    All: {},
+    All: null,
     Unanswered: { filter: "unanswered" },
   };
   const [selectedFilter, setSelectedFilter] = useState<number>(
