@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@mui/material";
 import clsx from "clsx";
 import { useState, KeyboardEvent } from "react";

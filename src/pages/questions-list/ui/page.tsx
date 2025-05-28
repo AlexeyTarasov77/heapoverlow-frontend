@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { FilterButton } from "./FilterButton";
-import { Loader, TagInput } from "../../../shared/ui";
+import { TagInput } from "../../../shared/ui";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
-import { Divider, Paper } from "@mui/material";
+import { Divider, Paper, Skeleton } from "@mui/material";
 import { QuestionPreview } from "../../../widgets/question";
-import { fetchQuestions, IQueryParams } from "../../../entities/questions";
+import { fetchQuestions, IQueryParams, Question } from "../../../entities/questions";
 import Link from "next/link";
 
 export function QuestionsListPage() {
@@ -27,9 +27,6 @@ export function QuestionsListPage() {
   const [selectedFilter, setSelectedFilter] = useState<number>(
     Object.keys(filters).indexOf("All"),
   );
-  if (isLoading) {
-    return <Loader />;
-  }
   return (
     <div className="p-4">
       <div className="flex justify-between mb-3">
@@ -69,23 +66,28 @@ export function QuestionsListPage() {
         </div>
       </div>
       <div className="border"></div>
-      <div className="flex flex-col">
-        {questions.map((question) => {
-          return (
-            <div key={question.id}>
+      <div className="flex flex-col gap-3">
+        {(isLoading ? Array.from({ length: 5 }) : questions).map((item, i) => {
+          let question: Question | undefined = (item as any)
+          const key = question ? question.id : i
+          return <div key={key}>{
+            question ? (
+
               <QuestionPreview
                 isLiked={likedQuestionsIds.includes(question.id)}
-                key={question.id}
                 data={question}
                 tagOnClick={(e) =>
                   setQueryParams({ tags: [e.currentTarget.innerText] })
                 }
               />
-              <Divider />
-            </div>
-          );
-        })}
+
+            ) : <Skeleton key={i} variant="rectangular" width="100%" height={150} />}
+            <Divider />
+          </div>
+        }
+        )}
       </div>
     </div>
   );
 }
+

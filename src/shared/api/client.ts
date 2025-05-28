@@ -11,7 +11,8 @@ export async function sendReq<T>(
   if (path instanceof URL) {
     url = path.toString();
   }
-  const authToken = localStorage.getItem(authTokenKey);
+  // const authToken = localStorage.getItem(authTokenKey);
+  const authToken = null
   if (authToken) {
     const headers = new Headers(options?.headers);
     headers.append("Authorization", `Bearer ${authToken}`);
@@ -21,7 +22,6 @@ export async function sendReq<T>(
       options = { headers };
     }
   }
-  // options = { ...options, credentials: "include" }
   const resp = await fetch(url, options);
   const data = await resp.json();
   return { ...data, status: resp.status };

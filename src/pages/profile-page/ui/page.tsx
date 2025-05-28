@@ -1,6 +1,7 @@
+"use client"
+
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import EditCalendarIcon from "@mui/icons-material/EditCalendar";
-"use client"
 import { useAppSelector } from "../../../app/store";
 import { Divider, Grid2, Typography } from "@mui/material";
 import { QuestionItem } from "./QuestionItem";

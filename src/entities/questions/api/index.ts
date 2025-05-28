@@ -12,8 +12,10 @@ import {
 } from "../model/schemas";
 import { Question } from "../model/types";
 
+// TODO: throw error if response is not success
 export const questionsApi = {
   getQuestions: async (): APIResponse<Question[]> => {
+    await (new Promise(resolve => setTimeout(resolve, 2000)))
     const resp = await GET("/questions");
     if (resp.success) {
       return {
@@ -24,6 +26,7 @@ export const questionsApi = {
     return resp;
   },
   getQuestionByID: async (questionID: number): APIResponse<QuestionDetail> => {
+    await (new Promise(resolve => setTimeout(resolve, 2000)))
     const resp = await GET("/questions/" + questionID);
     if (resp.success) {
       return { ...resp, data: QuestionExtendedSchema.parse(resp.data) };
